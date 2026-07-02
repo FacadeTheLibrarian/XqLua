@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 
 #if UNITY_EDITOR
 using UnityEngine;
+#endif
+
+#if XQLUA_DEBUG
+using System.Diagnostics;
 #endif
 
 namespace XqLua {
