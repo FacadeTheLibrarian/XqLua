@@ -57,7 +57,7 @@ namespace XqLua.Unity {
             _logType = logType;
         }
         protected override void OnDispose() {
-            Debug.Log("WithMessageが正常にDisposeされました！");
+            UnityEngine.Debug.Log("WithMessageが正常にDisposeされました！");
         }
 
         internal override bool IsConditionMet(T value) {
@@ -70,13 +70,13 @@ namespace XqLua.Unity {
             string formatted = Regex.Replace(_message, @"\{([^}]*)\}", value.ToString());
             switch (_logType) {
                 case UnityEngine.LogType.Error:
-                    Debug.LogError(formatted);
+                    UnityEngine.Debug.LogError(formatted);
                     break;
                 case UnityEngine.LogType.Warning:
-                    Debug.LogWarning(formatted);
+                    UnityEngine.Debug.LogWarning(formatted);
                     break;
                 default:
-                    Debug.Log(formatted);
+                    UnityEngine.Debug.Log(formatted);
                     break;
             }
             return isPreviousConditionMet;

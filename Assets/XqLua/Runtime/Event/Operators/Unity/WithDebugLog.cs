@@ -47,7 +47,7 @@ namespace XqLua.Unity {
         internal WithDebugLog(BaseOperator<T> previous, IPublisher<T> sourcePublisher) : base(previous, sourcePublisher) {
         }
         protected override void OnDispose() {
-            Debug.Log("WithDebugLogが正常にDisposeされました！");
+            UnityEngine.Debug.Log("WithDebugLogが正常にDisposeされました！");
         }
 
         internal override bool IsConditionMet(T value) {
@@ -57,7 +57,7 @@ namespace XqLua.Unity {
                 isPreviousConditionMet = _previous.IsConditionMet(value);
             }
 
-            Debug.Log($"そのままの値: {value}, ToString: {value.ToString()}");
+            UnityEngine.Debug.Log($"そのままの値: {value}, ToString: {value.ToString()}");
             return isPreviousConditionMet;
         }
     }

@@ -1,5 +1,10 @@
 ﻿using System;
 
+#if XQLUA_DEBUG
+using System.Diagnostics;
+using XqLua.Debug;
+#endif
+
 namespace XqLua {
     /// <summary>
     /// Publisherではなく、イベントの購読を抽象化したクラス
@@ -13,6 +18,13 @@ namespace XqLua {
             _subscriber = subscriber;
             _unsubscribe = unsubscribe;
             subscribe(OnEventInvoked);
+#if XQLUA_DEBUG
+            string caller = new StackFrame(2, false).GetMethod().DeclaringType.FullName;
+            if (caller.Contains("Extension")) {
+                caller = new StackFrame(3, false).GetMethod().DeclaringType.FullName;
+            }
+            DisposableDebug.Instance.AddDebug(this, "Subscription", caller);
+#endif
         }
 
         private void OnEventInvoked(T value) {
@@ -22,6 +34,9 @@ namespace XqLua {
         public void Dispose() {
             _unsubscribe(OnEventInvoked);
             _subscriber = null;
+#if XQLUA_DEBUG
+            DisposableDebug.Instance.DisposeDebug(this);
+#endif
         }
     }
 
@@ -37,6 +52,10 @@ namespace XqLua {
             _subscriber = subscriber;
             _unsubscribe = unsubscribe;
             subscribe(OnEventInvoked);
+#if XQLUA_DEBUG
+            string caller = new StackFrame(1, false).GetMethod().DeclaringType.FullName;
+            DisposableDebug.Instance.AddDebug(this, nameof(EventSubscription), caller);
+#endif
         }
 
         private void OnEventInvoked() {
@@ -46,6 +65,9 @@ namespace XqLua {
         public void Dispose() {
             _unsubscribe(OnEventInvoked);
             _subscriber = null;
+#if XQLUA_DEBUG
+            DisposableDebug.Instance.DisposeDebug(this);
+#endif
         }
     }
 }

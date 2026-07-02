@@ -1,6 +1,11 @@
 ﻿using System;
 using UnityEngine.Events;
 
+#if XQLUA_DEBUG
+using System.Diagnostics;
+using XqLua.Debug;
+#endif
+
 namespace XqLua.Unity {
     /// <summary>
     /// Publisherではなく、ButtonのonClickイベントの購読を抽象化したクラス
@@ -13,6 +18,13 @@ namespace XqLua.Unity {
             _subscriber = subscriber;
             _unsubscribe = unsubscribe;
             subscribe(OnEventInvoked);
+#if XQLUA_DEBUG
+            string caller = new StackFrame(2, false).GetMethod().DeclaringType.FullName;
+            if (caller.Contains("Extension")) {
+                caller = new StackFrame(3, false).GetMethod().DeclaringType.FullName;
+            }
+            DisposableDebug.Instance.AddDebug(this, "Subscription", caller);
+#endif
         }
 
         private void OnEventInvoked() {
@@ -22,6 +34,9 @@ namespace XqLua.Unity {
         public void Dispose() {
             _unsubscribe(OnEventInvoked);
             _subscriber = null;
+#if XQLUA_DEBUG
+            DisposableDebug.Instance.DisposeDebug(this);
+#endif
         }
     }
 
@@ -40,6 +55,10 @@ namespace XqLua.Unity {
 
             _value = value;
             subscribe(OnEventInvoked);
+#if XQLUA_DEBUG
+            string caller = new StackFrame(1, false).GetMethod().DeclaringType.FullName;
+            DisposableDebug.Instance.AddDebug(this, nameof(ButtonSubscription<T>), caller);
+#endif
         }
 
         private void OnEventInvoked() {
@@ -49,6 +68,9 @@ namespace XqLua.Unity {
         public void Dispose() {
             _unsubscribe(OnEventInvoked);
             _subscriber = null;
+#if XQLUA_DEBUG
+            DisposableDebug.Instance.DisposeDebug(this);
+#endif
         }
     }
 }

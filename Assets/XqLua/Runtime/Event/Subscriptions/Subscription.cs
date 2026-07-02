@@ -1,5 +1,10 @@
 ﻿using System;
 
+#if XQLUA_DEBUG
+using System.Diagnostics;
+using XqLua.Debug;
+#endif
+
 namespace XqLua {
     /// <summary>
     /// 購読するための拡張メソッドを提供するクラス
@@ -33,6 +38,13 @@ namespace XqLua {
 
         public Subscription(Action<T> subscriber) {
             _subscriber = subscriber;
+#if XQLUA_DEBUG
+            string caller = new StackFrame(2, false).GetMethod().DeclaringType.FullName;
+            if (caller.Contains("Extension")) {
+                caller = new StackFrame(3, false).GetMethod().DeclaringType.FullName;
+            }
+            DisposableDebug.Instance.AddDebug(this, "Subscription", caller);
+#endif
         }
 
         public void SetUnsubscription(Action unsubscription) {
@@ -46,6 +58,10 @@ namespace XqLua {
         public void Dispose() {
             _unsubscription();
             _subscriber = null;
+
+#if XQLUA_DEBUG
+            DisposableDebug.Instance.DisposeDebug(this);
+#endif
         }
     }
 }

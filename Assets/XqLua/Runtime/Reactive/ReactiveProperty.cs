@@ -7,6 +7,7 @@ using UnityEngine;
 
 #if XQLUA_DEBUG
 using System.Diagnostics;
+using XqLua.Debug;
 #endif
 
 namespace XqLua {
@@ -81,6 +82,10 @@ namespace XqLua {
         /// <param name="value">初期値</param>
         public ReactiveProperty(T value = default) {
             _value = value;
+#if XQLUA_DEBUG
+            string caller = new StackFrame(1, false).GetMethod().DeclaringType.FullName;
+            DisposableDebug.Instance.AddDebug(this, nameof(ReactiveProperty<T>), caller);
+#endif
         }
 
         /// <summary>
@@ -89,6 +94,7 @@ namespace XqLua {
         public void Dispose() {
 #if XQLUA_DEBUG
             _isDisposed = true;
+            DisposableDebug.Instance.DisposeDebug(this);
 #endif
         }
 
