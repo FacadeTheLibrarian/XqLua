@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5929931626063767266}
   - component: {fileID: 6762854418818653407}
+  - component: {fileID: -9161796774913718484}
   - component: {fileID: 5572401210499293086}
   m_Layer: 5
   m_Name: Arrow
@@ -37,7 +38,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 51.25, y: 185}
-  m_SizeDelta: {x: 300, y: 13.2}
+  m_SizeDelta: {x: 300, y: 15}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!222 &6762854418818653407
 CanvasRenderer:
@@ -47,6 +48,22 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1284560505351683203}
   m_CullTransparentMesh: 1
+--- !u!114 &-9161796774913718484
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1284560505351683203}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9f267883bac745547b0d37d14b236e4e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::XqLua.Sample.Arrow
+  _image: {fileID: 5572401210499293086}
+  _left: {fileID: 118533661096977899}
+  _right: {fileID: 1075186406226563993}
+  _highLightDuration: 1
 --- !u!114 &5572401210499293086
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -174,6 +191,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: aeaba2e51308a0c4b9293c5a012ad186, type: 3}
+--- !u!114 &1075186406226563993 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1878096912254191662, guid: aeaba2e51308a0c4b9293c5a012ad186, type: 3}
+  m_PrefabInstance: {fileID: 1511946582325320631}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
 --- !u!224 &7332122535084483258 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 8159236091350956301, guid: aeaba2e51308a0c4b9293c5a012ad186, type: 3}
@@ -276,6 +304,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: aeaba2e51308a0c4b9293c5a012ad186, type: 3}
+--- !u!114 &118533661096977899 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1878096912254191662, guid: aeaba2e51308a0c4b9293c5a012ad186, type: 3}
+  m_PrefabInstance: {fileID: 1996583976964713925}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
 --- !u!224 &7678117788123321544 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 8159236091350956301, guid: aeaba2e51308a0c4b9293c5a012ad186, type: 3}
