@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using UnityEditor;
 
-namespace XqLua.Debug {
+namespace XqLua.Debugger {
     public sealed class DisposableDebug {
         public static DisposableDebug Instance {
             get {
