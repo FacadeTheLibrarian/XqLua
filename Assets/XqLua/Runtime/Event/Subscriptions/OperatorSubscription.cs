@@ -1,6 +1,6 @@
 ﻿#if XQLUA_DEBUG
 using System.Diagnostics;
-using XqLua.Debug;
+using XqLua.Debugger;
 #endif
 
 namespace XqLua {
@@ -20,7 +20,7 @@ namespace XqLua {
             if (caller.Contains("Extension")) {
                 caller = new StackFrame(3, false).GetMethod().DeclaringType.FullName;
             }
-            DisposableDebug.Instance.AddDebug(this, "Subscription", caller);
+            DisposableDebugger.Instance.AddDebug(this, "Subscription", caller);
 #endif
         }
 
@@ -28,7 +28,7 @@ namespace XqLua {
             _disposableSubscription.Dispose();
             _disposableOperator.Dispose();
 #if XQLUA_DEBUG
-            DisposableDebug.Instance.DisposeDebug(this);
+            DisposableDebugger.Instance.DisposeDebug(this);
 #endif
         }
     }
