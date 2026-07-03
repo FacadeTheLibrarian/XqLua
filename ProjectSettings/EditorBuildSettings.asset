@@ -6,7 +6,16 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/com.facadethelibrarian.xqlua/Samples/Scenes/Root.unity
-    guid: 99c9720ab356a0642a771bea13969a05
+    path: Assets/Sample/Scenes/LandingScene.unity
+    guid: 8fdad4e1382b4e64d93b4cd51561c435
+  - enabled: 1
+    path: Assets/Sample/Scenes/Individuals/GameSample.unity
+    guid: 9f3d3cd8a7591184d86ccbbaedb6ec5f
+  - enabled: 1
+    path: Assets/Sample/Scenes/Individuals/BadSample.unity
+    guid: 6e38bf596ca9e61419a2dd0a1f280eb6
+  - enabled: 1
+    path: Assets/Sample/Scenes/Individuals/BehaviourSample.unity
+    guid: 2efdc0338e4a6b14ebcb34e085a4c06b
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
