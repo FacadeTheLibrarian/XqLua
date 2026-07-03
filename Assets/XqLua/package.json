@@ -1,0 +1,12 @@
+{
+  "name": "com.facadethelibrarian.xqlua",
+  "displayName": "XqLua",
+  "version": "1.0.0",
+  "unity": "2023.1",
+  "description": "XqLua is a simple event wrapper, and simple reactive extensions.\n Just call me Eks-k-lu:a!",
+  "author": {
+    "name": "Yadori Ouchi",
+    "url": "https://github.com/FacadeTheLibrarian",
+    "email": "yadoriouchi@gmail.com"
+  }
+}

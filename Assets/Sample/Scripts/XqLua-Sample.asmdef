@@ -1,0 +1,16 @@
+{
+    "name": "XqLua-Sample",
+    "rootNamespace": "",
+    "references": [
+        "GUID:55f46ac5a5805f64090e210888061868"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

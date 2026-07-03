@@ -1,0 +1,67 @@
+﻿using System;
+
+#if XQLUA_DEBUG
+using System.Diagnostics;
+using XqLua.Debug;
+#endif
+
+namespace XqLua {
+    /// <summary>
+    /// 購読するための拡張メソッドを提供するクラス
+    /// </summary>
+    public static class SubscriptionExtension {
+        /// <summary>
+        /// Operatorに対して購読を行う拡張メソッド
+        /// </summary>
+        /// <typeparam name="T">Publisher/Operatorの型</typeparam>
+        /// <param name="source">対象のOperator</param>
+        /// <param name="subscriber">購読者のメソッド</param>
+        /// <returns>購読の解除を担当するDisposableSubscription</returns>
+        public static IDisposableSubscription Subscribe<T>(this BaseOperator<T> source, Action<T> subscriber) {
+            Action<T> wrapper = (value) => {
+                if (source.IsConditionMet(value)) {
+                    subscriber(value);
+                }
+            };
+            IDisposableSubscription subscription = source.Publisher.Subscribe(wrapper);
+            return new OperatorSubscription<T>(subscription, source);
+        }
+    }
+
+    /// <summary>
+    /// 購読を抽象化したクラス
+    /// </summary>
+    /// <typeparam name="T">購読するPublisherの型</typeparam>
+    internal sealed class Subscription<T> : IDisposableSubscription {
+        private Action<T> _subscriber = default;
+        private Action _unsubscription = default;
+
+        public Subscription(Action<T> subscriber) {
+            _subscriber = subscriber;
+#if XQLUA_DEBUG
+            string caller = new StackFrame(2, false).GetMethod().DeclaringType.FullName;
+            if (caller.Contains("Extension")) {
+                caller = new StackFrame(3, false).GetMethod().DeclaringType.FullName;
+            }
+            DisposableDebug.Instance.AddDebug(this, "Subscription", caller);
+#endif
+        }
+
+        public void SetUnsubscription(Action unsubscription) {
+            _unsubscription = unsubscription;
+        }
+
+        public void OnEventInvoked(T value) {
+            _subscriber(value);
+        }
+
+        public void Dispose() {
+            _unsubscription();
+            _subscriber = null;
+
+#if XQLUA_DEBUG
+            DisposableDebug.Instance.DisposeDebug(this);
+#endif
+        }
+    }
+}
