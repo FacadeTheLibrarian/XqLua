@@ -1,0 +1,67 @@
+using System;
+using System.Collections;
+using UnityEngine;
+using XqLua.Extension;
+
+namespace XqLua.Sample.GameSample {
+    public class Cannon : MonoBehaviour, IDisposable {
+        [SerializeField] private CannonBall _cannonBall = default;
+        [SerializeField] private Muzzle _muzzle = default;
+
+        [SerializeField] private float _secondToTarget = 1.0f;
+        [SerializeField] private float _reloadInterval = 0.125f;
+
+        private Magazine _magazine = default;
+        private Spotter _spotter = default;
+
+        private bool _isFiring = false;
+        private bool _isReloading = false;
+
+        private Disposables _disposables = default;
+
+        public Cannon Initialize(Magazine magazine, Spotter spotter) {
+            _disposables = new Disposables();
+            _cannonBall = _cannonBall.Initialize().AddTo(_disposables);
+            _muzzle = _muzzle.Initialize().AddTo(_disposables);
+            _magazine = magazine;
+            _spotter = spotter;
+            return this;
+        }
+
+        public void Dispose() {
+            _disposables.Dispose();
+        }
+
+        public void Fire() {
+            if (_isFiring || _isReloading) {
+                return;
+            }
+            if (!_spotter.TrySpot(out Target target)) {
+                return;
+            }
+            if (!_magazine.TryConsumeAmmo()) {
+                return;
+            }
+            _isFiring = true;
+            StartCoroutine(FireCore(target, _secondToTarget));
+        }
+        private IEnumerator FireCore(Target target, float secondToTarget) {
+            _muzzle.Fire();
+            yield return _cannonBall.Fire(_muzzle.transform, target, secondToTarget);
+            _isFiring = false;
+        }
+        public void Reload() {
+            if (_isFiring || _isReloading) {
+                return;
+            }
+            _isReloading = true;
+            StartCoroutine(ReloadCore());
+        }
+        public IEnumerator ReloadCore() {
+            while (_magazine.TryReloadOne()) {
+                yield return new WaitForSeconds(_reloadInterval);
+            }
+            _isReloading = false;
+        }
+    }
+}
