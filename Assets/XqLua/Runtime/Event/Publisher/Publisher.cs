@@ -2,7 +2,7 @@
 
 #if XQLUA_DEBUG
 using System.Diagnostics;
-using XqLua.Debug;
+using XqLua.Debugger;
 #endif
 
 namespace XqLua {
@@ -15,7 +15,7 @@ namespace XqLua {
         public Publisher() {
 #if XQLUA_DEBUG
             string caller = new StackFrame(1, false).GetMethod().DeclaringType.FullName;
-            DisposableDebug.Instance.AddDebug(this, nameof(Publisher<T>), caller);
+            DisposableDebugger.Instance.AddDebug(this, nameof(Publisher<T>), caller);
 #endif
         }
 
@@ -25,7 +25,7 @@ namespace XqLua {
         public void Dispose() {
 #if XQLUA_DEBUG
             _isDisposed = true;
-            DisposableDebug.Instance.DisposeDebug(this);
+            DisposableDebugger.Instance.DisposeDebug(this);
 #endif
             //NOTE: 本家SubjectはDisposeしないとリークするので、nopのDisposeを用意
             //      Debug状態ではDisposeがかかっているかを見る

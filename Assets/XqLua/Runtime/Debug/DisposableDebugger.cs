@@ -3,21 +3,21 @@ using System;
 using System.Collections.Generic;
 using UnityEditor;
 
-namespace XqLua.Debug {
-    public sealed class DisposableDebug {
-        public static DisposableDebug Instance {
+namespace XqLua.Debugger {
+    public sealed class DisposableDebugger {
+        public static DisposableDebugger Instance {
             get {
                 if (_instance == null) {
-                    _instance = new DisposableDebug();
+                    _instance = new DisposableDebugger();
                 }
                 return _instance;
             }
         }
 
-        private static DisposableDebug _instance = default;
+        private static DisposableDebugger _instance = default;
 
         private Dictionary<IDisposable, (string className, string caller)> _disposables = default;
-        private DisposableDebug() {
+        private DisposableDebugger() {
             _disposables = new Dictionary<IDisposable, (string className, string caller)>();
             EditorApplication.playModeStateChanged += OnPlayModeStateChanged;
         }
@@ -39,13 +39,20 @@ namespace XqLua.Debug {
             EditorApplication.playModeStateChanged -= OnPlayModeStateChanged;
 
             List<IDisposable> missedDisposables = new List<IDisposable>(_disposables.Keys);
+            List<string> missedDisposablesInfo = new List<string>();
             foreach (IDisposable missedDisposable in missedDisposables) {
                 (string className, string caller) information = _disposables[missedDisposable];
-                UnityEngine.Debug.LogError($"{information.caller}で宣言された{information.className}がDisposeされていません！\n安全のためDisposeします");
+                missedDisposablesInfo.Add($"{information.caller}で宣言された{information.className}がDisposeされていません！");
                 missedDisposable.Dispose();
             }
             _disposables = null;
             _instance = null;
+
+            if(missedDisposablesInfo.Count > 0) {
+                string messageHeader = "以下のIDisposableがDisposeされていませんでした！\nDispose忘れはメモリリークの原因となります。Disposeするようにプログラムを修正してください。\n";
+                string message = messageHeader + string.Join("\n", missedDisposablesInfo);
+                throw new InvalidProgramException(message);
+            }
         }
     }
 }

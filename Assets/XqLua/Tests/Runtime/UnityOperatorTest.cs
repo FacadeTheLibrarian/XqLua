@@ -72,27 +72,27 @@ namespace XqLua.Test {
         public void DebugLogShouldWork() {
             Publisher<int> publisher = new Publisher<int>().AddTo(_disposables);
             publisher.WithMessage("DebugTest").Subscribe((value) => { }).AddTo(_disposables);
-            publisher.WithMessage("Debug {test}").WithDebugLog().Subscribe((value) => { }).AddTo(_disposables);
+            publisher.WithMessage("Debugger {test}").WithDebugLog().Subscribe((value) => { }).AddTo(_disposables);
 
             publisher.Invoke(100);
 
             LogAssert.Expect(UnityEngine.LogType.Log, "DebugTest");
-            LogAssert.Expect(UnityEngine.LogType.Log, "Debug 100");
+            LogAssert.Expect(UnityEngine.LogType.Log, "Debugger 100");
             LogAssert.Expect(UnityEngine.LogType.Log, "そのままの値: 100, ToString: 100");
 
             publisher
-                .WithMessage("Debug {test}")
+                .WithMessage("Debugger {test}")
                 .WithDebugLog()
                 .ConvertTo<int, string>((value) => { return value.ToString("F10"); })
-                .WithMessage("Debug {test}")
+                .WithMessage("Debugger {test}")
                 .WithDebugLog()
                 .Subscribe(value => { })
                 .AddTo(_disposables);
 
             publisher.Invoke(100);
-            LogAssert.Expect(UnityEngine.LogType.Log, "Debug 100");
+            LogAssert.Expect(UnityEngine.LogType.Log, "Debugger 100");
             LogAssert.Expect(UnityEngine.LogType.Log, "そのままの値: 100, ToString: 100");
-            LogAssert.Expect(UnityEngine.LogType.Log, "Debug 100.0000000000");
+            LogAssert.Expect(UnityEngine.LogType.Log, "Debugger 100.0000000000");
             LogAssert.Expect(UnityEngine.LogType.Log, "そのままの値: 100.0000000000, ToString: 100.0000000000");
         }
 
