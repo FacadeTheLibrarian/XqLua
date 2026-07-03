@@ -4,20 +4,20 @@ using System.Collections.Generic;
 using UnityEditor;
 
 namespace XqLua.Debugger {
-    public sealed class DisposableDebug {
-        public static DisposableDebug Instance {
+    public sealed class DisposableDebugger {
+        public static DisposableDebugger Instance {
             get {
                 if (_instance == null) {
-                    _instance = new DisposableDebug();
+                    _instance = new DisposableDebugger();
                 }
                 return _instance;
             }
         }
 
-        private static DisposableDebug _instance = default;
+        private static DisposableDebugger _instance = default;
 
         private Dictionary<IDisposable, (string className, string caller)> _disposables = default;
-        private DisposableDebug() {
+        private DisposableDebugger() {
             _disposables = new Dictionary<IDisposable, (string className, string caller)>();
             EditorApplication.playModeStateChanged += OnPlayModeStateChanged;
         }
