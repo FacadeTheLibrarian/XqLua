@@ -3,7 +3,7 @@ using UnityEngine.Events;
 
 #if XQLUA_DEBUG
 using System.Diagnostics;
-using XqLua.Debug;
+using XqLua.Debugger;
 #endif
 
 namespace XqLua.Unity {
@@ -23,7 +23,7 @@ namespace XqLua.Unity {
             if (caller.Contains("Extension")) {
                 caller = new StackFrame(3, false).GetMethod().DeclaringType.FullName;
             }
-            DisposableDebug.Instance.AddDebug(this, "Subscription", caller);
+            DisposableDebugger.Instance.AddDebug(this, "Subscription", caller);
 #endif
         }
 
@@ -35,7 +35,7 @@ namespace XqLua.Unity {
             _unsubscribe(OnEventInvoked);
             _subscriber = null;
 #if XQLUA_DEBUG
-            DisposableDebug.Instance.DisposeDebug(this);
+            DisposableDebugger.Instance.DisposeDebug(this);
 #endif
         }
     }
@@ -57,7 +57,7 @@ namespace XqLua.Unity {
             subscribe(OnEventInvoked);
 #if XQLUA_DEBUG
             string caller = new StackFrame(1, false).GetMethod().DeclaringType.FullName;
-            DisposableDebug.Instance.AddDebug(this, nameof(ButtonSubscription<T>), caller);
+            DisposableDebugger.Instance.AddDebug(this, nameof(ButtonSubscription<T>), caller);
 #endif
         }
 
@@ -69,7 +69,7 @@ namespace XqLua.Unity {
             _unsubscribe(OnEventInvoked);
             _subscriber = null;
 #if XQLUA_DEBUG
-            DisposableDebug.Instance.DisposeDebug(this);
+            DisposableDebugger.Instance.DisposeDebug(this);
 #endif
         }
     }
