@@ -12,6 +12,7 @@ namespace XqLua.Sample.BadSample {
         [SerializeField] private UIManager _uiManager = default;
 
         [SerializeField] private int _ammo = 10;
+        [SerializeField] private int _shotDamage = 10;
         [SerializeField] private float _secondToTarget = 1.0f;
         [SerializeField] private float _reloadInterval = 0.125f;
 
@@ -61,7 +62,7 @@ namespace XqLua.Sample.BadSample {
                 _cannonBall.transform.position += (difference * unscaledDeltaTime) / _secondToTarget;
                 yield return null;
             }
-            component.Hit();
+            component.Hit(_shotDamage);
             _cannonBallTrail.Stop();
             _cannonBallRenderer.enabled = false;
             _isFiring = false;
