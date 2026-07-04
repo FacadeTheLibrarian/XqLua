@@ -13,6 +13,8 @@ namespace XqLua.Sample.GameSample {
         [SerializeField] private CannonPresenter _cannonPresenter = default;
         [SerializeField] private MagazinePresenter _magazinePresenter = default;
 
+        [SerializeField] private EnemyHealthPointPresenter _enemyHpPresenter = default;
+
         private Disposables _disposables = default;
         public void Awake() {
             _disposables = new Disposables();
@@ -26,6 +28,8 @@ namespace XqLua.Sample.GameSample {
 
             _cannonPresenter = _cannonPresenter.Initialize().AddTo(_disposables);
             _magazinePresenter = _magazinePresenter.Initialize(_magazine).AddTo(_disposables);
+
+            _enemyHpPresenter = _enemyHpPresenter.Initialize().AddTo(_disposables);
         }
 
         public void OnDestroy() {

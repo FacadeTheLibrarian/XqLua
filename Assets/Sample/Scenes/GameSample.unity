@@ -119,6 +119,143 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1001 &8163903
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 1100598918}
+    m_Modifications:
+    - target: {fileID: 6860340148122729270, guid: a30faee938665a549935a283ebaccfdb, type: 3}
+      propertyPath: m_Name
+      value: EnemyHp
+      objectReference: {fileID: 0}
+    - target: {fileID: 7557055873292340258, guid: a30faee938665a549935a283ebaccfdb, type: 3}
+      propertyPath: m_Pivot.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7557055873292340258, guid: a30faee938665a549935a283ebaccfdb, type: 3}
+      propertyPath: m_Pivot.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7557055873292340258, guid: a30faee938665a549935a283ebaccfdb, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7557055873292340258, guid: a30faee938665a549935a283ebaccfdb, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7557055873292340258, guid: a30faee938665a549935a283ebaccfdb, type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7557055873292340258, guid: a30faee938665a549935a283ebaccfdb, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7557055873292340258, guid: a30faee938665a549935a283ebaccfdb, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 300
+      objectReference: {fileID: 0}
+    - target: {fileID: 7557055873292340258, guid: a30faee938665a549935a283ebaccfdb, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 120
+      objectReference: {fileID: 0}
+    - target: {fileID: 7557055873292340258, guid: a30faee938665a549935a283ebaccfdb, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7557055873292340258, guid: a30faee938665a549935a283ebaccfdb, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7557055873292340258, guid: a30faee938665a549935a283ebaccfdb, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7557055873292340258, guid: a30faee938665a549935a283ebaccfdb, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7557055873292340258, guid: a30faee938665a549935a283ebaccfdb, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7557055873292340258, guid: a30faee938665a549935a283ebaccfdb, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7557055873292340258, guid: a30faee938665a549935a283ebaccfdb, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7557055873292340258, guid: a30faee938665a549935a283ebaccfdb, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7557055873292340258, guid: a30faee938665a549935a283ebaccfdb, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7557055873292340258, guid: a30faee938665a549935a283ebaccfdb, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7557055873292340258, guid: a30faee938665a549935a283ebaccfdb, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7557055873292340258, guid: a30faee938665a549935a283ebaccfdb, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8135345566616264722, guid: a30faee938665a549935a283ebaccfdb, type: 3}
+      propertyPath: m_Text
+      value: 888
+      objectReference: {fileID: 0}
+    - target: {fileID: 8135345566616264722, guid: a30faee938665a549935a283ebaccfdb, type: 3}
+      propertyPath: m_Color.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8135345566616264722, guid: a30faee938665a549935a283ebaccfdb, type: 3}
+      propertyPath: m_Color.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8135345566616264722, guid: a30faee938665a549935a283ebaccfdb, type: 3}
+      propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8135345566616264722, guid: a30faee938665a549935a283ebaccfdb, type: 3}
+      propertyPath: m_FontData.m_MaxSize
+      value: 252
+      objectReference: {fileID: 0}
+    - target: {fileID: 8135345566616264722, guid: a30faee938665a549935a283ebaccfdb, type: 3}
+      propertyPath: m_FontData.m_FontSize
+      value: 86
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: a30faee938665a549935a283ebaccfdb, type: 3}
+--- !u!224 &8163904 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 7557055873292340258, guid: a30faee938665a549935a283ebaccfdb, type: 3}
+  m_PrefabInstance: {fileID: 8163903}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &8163905 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8135345566616264722, guid: a30faee938665a549935a283ebaccfdb, type: 3}
+  m_PrefabInstance: {fileID: 8163903}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Text
 --- !u!1 &53216876
 GameObject:
   m_ObjectHideFlags: 0
@@ -5610,6 +5747,57 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: XqLua-Sample::XqLua.Sample.GameSample.CannonReloadView
   _button: {fileID: 1009449141}
+--- !u!1 &1100598917
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1100598918}
+  - component: {fileID: 1100598919}
+  m_Layer: 5
+  m_Name: EnemyHealthPointView
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1100598918
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1100598917}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 8163904}
+  m_Father: {fileID: 1573345733}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 459, y: 405}
+  m_SizeDelta: {x: 300, y: 120}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1100598919
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1100598917}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ba1edf0b7b91452409b1b8a167b4013a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: XqLua-Sample::XqLua.Sample.GameSample.EnemyHealthPointView
+  _hpText: {fileID: 8163905}
+  _animationSecond: 0.5
 --- !u!1 &1143610044
 GameObject:
   m_ObjectHideFlags: 0
@@ -10587,6 +10775,7 @@ Transform:
   m_Children:
   - {fileID: 1367379148}
   - {fileID: 757066228}
+  - {fileID: 1936768571}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1498940432
@@ -10624,6 +10813,7 @@ MonoBehaviour:
   _targetManager: {fileID: 1666479156}
   _cannonPresenter: {fileID: 1367379149}
   _magazinePresenter: {fileID: 757066229}
+  _enemyHpPresenter: {fileID: 1936768572}
 --- !u!4 &1498940434
 Transform:
   m_ObjectHideFlags: 0
@@ -10745,6 +10935,9 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 754504410394386983, guid: 1457e7d25f984704eace02d44ea5629f, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1100598918}
     - targetCorrespondingSourceObject: {fileID: 754504410394386983, guid: 1457e7d25f984704eace02d44ea5629f, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1762303323}
@@ -10970,7 +11163,8 @@ Transform:
   m_LocalPosition: {x: 4.25, y: 3.25, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 1849543545}
   m_Father: {fileID: 1666479157}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1754417395
@@ -10985,6 +11179,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 57eefdc516936684b91ab05d29047cf5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: XqLua-Sample::Target
+  _healthPoint: {fileID: 1849543544}
+  _maxHp: 100
+  _dangerZoneRatio: 0.325
+  _defeatedWaitSecond: 1
+  _secondToHeal: 1
 --- !u!1 &1762303322
 GameObject:
   m_ObjectHideFlags: 0
@@ -11298,6 +11497,98 @@ MonoBehaviour:
   m_FirstSelected: {fileID: 0}
   m_sendNavigationEvents: 1
   m_DragThreshold: 10
+--- !u!1 &1849543543
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1849543545}
+  - component: {fileID: 1849543544}
+  m_Layer: 0
+  m_Name: HealthPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1849543544
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1849543543}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 959a58e43ae389942ae3169e1806d69f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: XqLua-Sample::XqLua.Sample.GameSample.HealthPoint
+  _hp:
+    _value: 0
+--- !u!4 &1849543545
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1849543543}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1754417394}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1936768570
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1936768571}
+  - component: {fileID: 1936768572}
+  m_Layer: 0
+  m_Name: EnemyHealthPointPresenter
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1936768571
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1936768570}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1416460549}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1936768572
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1936768570}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fd93039d95112b84583dee968200ea2c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: XqLua-Sample::XqLua.Sample.GameSample.EnemyHealthPointPresenter
+  _view: {fileID: 1100598919}
+  _model: {fileID: 1849543544}
 --- !u!1001 &2045226379
 PrefabInstance:
   m_ObjectHideFlags: 0
