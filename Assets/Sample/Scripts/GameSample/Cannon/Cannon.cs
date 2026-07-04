@@ -43,7 +43,10 @@ namespace XqLua.Sample.GameSample {
                 return;
             }
             _isFiring = true;
-            StartCoroutine(FireCore(target, _secondToTarget));
+
+            //NOTE: 投げっぱなし
+            IEnumerator coroutineSource = FireCore(target, _secondToTarget);
+            StartCoroutine(coroutineSource);
         }
         private IEnumerator FireCore(Target target, float secondToTarget) {
             _muzzle.Fire();
@@ -55,7 +58,10 @@ namespace XqLua.Sample.GameSample {
                 return;
             }
             _isReloading = true;
-            StartCoroutine(ReloadCore());
+
+            //NOTE: 投げっぱなし
+            IEnumerator coroutineSource = ReloadCore();
+            StartCoroutine(coroutineSource);
         }
         public IEnumerator ReloadCore() {
             while (_magazine.TryReloadOne()) {
