@@ -29,9 +29,9 @@ namespace XqLua.Sample.BadSample {
 
         public void Update() {
             if (_uiManager.IsFireButtonPressed && _isFiring == false && _isReloading == false) {
-                if(_currentAmmo > 0) {
+                if (_currentAmmo > 0) {
                     _currentAmmo--;
-                    if(_currentAmmo <= 0) {
+                    if (_currentAmmo <= 0) {
                         _uiManager.SetReloadWarning(true);
                     }
                     _isFiring = true;
@@ -72,7 +72,7 @@ namespace XqLua.Sample.BadSample {
             while (true) {
                 _currentAmmo++;
                 _uiManager.UpdateAmmoCounter(_currentAmmo);
-                if(_currentAmmo >= _ammo) {
+                if (_currentAmmo >= _ammo) {
                     break;
                 }
                 yield return new WaitForSeconds(_reloadInterval);

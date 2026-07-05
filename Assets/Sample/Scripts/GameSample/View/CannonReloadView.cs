@@ -1,7 +1,6 @@
 ﻿using System;
 using UnityEngine;
 using UnityEngine.UI;
-using XqLua;
 using XqLua.Unity.Extension;
 
 namespace XqLua.Sample.GameSample {

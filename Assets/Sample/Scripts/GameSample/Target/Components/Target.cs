@@ -15,7 +15,7 @@ namespace XqLua.Sample.GameSample {
 
         [SerializeField] private float _defeatedWaitSecond = 1.0f;
         [SerializeField] private float _secondToHeal = 1.0f;
-        
+
         private int _id = default;
         private bool _isRecovering = false;
 
@@ -28,7 +28,7 @@ namespace XqLua.Sample.GameSample {
             _onTargetEvent = new Publisher<ITargetEvents>().AddTo(_disposables);
             _healthPoint = _healthPoint.Initialize(_maxHp, _dangerZoneRatio).AddTo(_disposables);
 
-            _healthPoint.OnDefeated.Subscribe(_ =>  OnDefeated()).AddTo(_disposables);
+            _healthPoint.OnDefeated.Subscribe(_ => OnDefeated()).AddTo(_disposables);
 
             return this;
         }

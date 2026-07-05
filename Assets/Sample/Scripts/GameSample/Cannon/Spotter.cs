@@ -1,6 +1,5 @@
 ﻿using System;
 using UnityEngine;
-using XqLua.Extension;
 using Random = UnityEngine.Random;
 
 namespace XqLua.Sample.GameSample {
@@ -15,7 +14,7 @@ namespace XqLua.Sample.GameSample {
         }
 
         public bool TrySpot(out Target possibleTarget) {
-            if(_targets.Length <= 0) {
+            if (_targets.Length <= 0) {
                 Debug.Log("SpotterにTargetが登録されていません！");
                 possibleTarget = null;
                 return false;

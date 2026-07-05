@@ -25,7 +25,7 @@ namespace XqLua.Sample.BadSample {
                 int previous = _hp;
                 _hp -= damage;
 
-                if(_hp < (_maxHp * _dangerZoneRatio)) {
+                if (_hp < (_maxHp * _dangerZoneRatio)) {
                     _uiManager.ChangeTargetHpColor(Color.yellow);
                 }
 
