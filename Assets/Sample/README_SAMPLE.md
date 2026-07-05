@@ -5,12 +5,13 @@ XqLuaを使うためのサンプルと、挙動の理解のためのサンプル
 
 | シーン名 | 概要 |
 | --- | --- | 
-| GameSample | ゲームでよくある「敵を撃つ」を題材に、XqLuaの基本的な使い方と簡単なゲーム向けの実装をしています。 |  
-| BadSample | 初学者がやりがちなコーディングを再現した実装です。 |  
-| BehaviourSample | Publisher-Operator-Subscriber の関係を可視化したサンプルです。|
+| [GameSample](#game-sample) | ゲームでよくある「敵を撃つ」を題材に、XqLuaの基本的な使い方と簡単なゲーム向けの実装をしています。 |  
+| [BadSample](#bad-sample) | 初学者がやりがちなコーディングを再現した実装です。 |  
+| [BehaviourSample](#behaviour-sample) | Publisher-Operator-Subscriber の関係を可視化したサンプルです。|
 
 
 ---
+<a id="game-sample"></a>
 ### GameSample
 シューティングゲームやFPSなどで「**球を撃つ**」動作を中心に実装しています。     
 
@@ -19,7 +20,7 @@ XqLuaを使うためのサンプルと、挙動の理解のためのサンプル
 MonoBehaviour式の実装ではこのような実装が多いのではないでしょうか。
 
 ---
-
+<a id="bad-sample"></a>
 ### BadSample
 上記のGameSampleと同じ外見動作で、**ゲームを作るにあたって**初学者がやりがちな**よくないコーディング**を再現した実装です。
 **GUIとゲームロジックの結合**や、**Manager/アクセッサの乱立**、**プッシュが適切な場面でのポーリング**など、思い付く限り入れ込んでみました。
@@ -35,7 +36,7 @@ MonoBehaviour式の実装ではこのような実装が多いのではないで�
 > なので、「ハッカソン作品をもっとよくする」とか「アクションゲームを作ってみる」などでこのようなコードに身に覚えがあれば、GameSampleのようなコードを参考にリファクタリングするのがベストだとな思いました。
 
 ---
-
+<a id="behaviour-sample"></a>
 ### BehaviourSample
 Publisher-Operator-Subscriberの関係を可視化したサンプルです。   
 PublisherかReactivePropertyのボタンを押すと発火して、それがSubscriberに、一部Operatorを通して反映される様子を見ることができます。
