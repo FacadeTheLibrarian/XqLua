@@ -105,6 +105,9 @@
 2. **Subscribe() の戻り値**である **IDisposableSubscription** を **Add** して登録する<br>もしくは **IDisposableSubscription** に対して **.AddTo(_disposables)** のように記述して登録する
 3. **OnDestroy()** や **IDisposable.Dispose()** において **Dispose()** する
 
+---
+なお、Unityを用いたサンプルも用意しています。   
+[詳しくはこちらをご覧ください。](/Assets/Sample/README_SAMPLE.md)
 <a id="installation"></a>
 ## 導入
 
