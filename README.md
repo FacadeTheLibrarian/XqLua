@@ -5,6 +5,7 @@
 ## 目次
 1. [特徴](#feature)
 2. [サンプルコード](#samples)
+   - [Unityサンプル](#unity-samples)   
 3. [導入](#installation)
 4. [概要](#overview)
    - [思想](#how-its-made)
@@ -21,6 +22,15 @@
 
 <a id="samples"></a>
 ## サンプルコード
+
+---
+
+<a id="unity-samples"></a>
+#### Unityを用いたサンプルを用意しています。   
+[詳しくはこちらをご覧ください。](/Assets/Sample/README_SAMPLE.md)
+
+---
+
 基本的な構文のサンプルは以下の通りです。
 ```csharp
     public IPublisher<int> OnDamage => _onDamage;
@@ -104,10 +114,6 @@
 1. **Disposables** を生成する
 2. **Subscribe() の戻り値**である **IDisposableSubscription** を **Add** して登録する<br>もしくは **IDisposableSubscription** に対して **.AddTo(_disposables)** のように記述して登録する
 3. **OnDestroy()** や **IDisposable.Dispose()** において **Dispose()** する
-
----
-なお、Unityを用いたサンプルも用意しています。   
-[詳しくはこちらをご覧ください。](/Assets/Sample/README_SAMPLE.md)
 <a id="installation"></a>
 ## 導入
 
