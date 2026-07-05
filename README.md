@@ -2,11 +2,35 @@
 ### エクスクルーア 
 **C# eventのラップ**と、**簡略・単純化したUniRx/R3の機能**を提供する**Unity/C#用ライブラリ**です。
 
+## 目次
+1. [特徴](#feature)
+2. [サンプルコード](#samples)
+   - [Unityサンプル](#unity-samples)   
+3. [導入](#installation)
+4. [概要](#overview)
+   - [思想](#how-its-made)
+   - [プロジェクト対象](#projects)
+5. [基本機能](#basics)
+6. [その他](#miscs)
+7. [FAQ](#faq)
+8. [ライセンス](#lisense)
+
+<a id="feature"></a>
 ## 特徴
 - **C# eventをベースにUniRxに準拠したAPI**
 - **StreamやScheduler、非同期など複雑な機能を廃して基本的な機能のみを集約**
 
+<a id="samples"></a>
 ## サンプルコード
+
+---
+
+<a id="unity-samples"></a>
+#### Unityを用いたサンプルを用意しています。   
+[詳しくはこちらをご覧ください。](/Assets/Sample/README_SAMPLE.md)
+
+---
+
 基本的な構文のサンプルは以下の通りです。
 ```csharp
     public IPublisher<int> OnDamage => _onDamage;
@@ -90,7 +114,7 @@
 1. **Disposables** を生成する
 2. **Subscribe() の戻り値**である **IDisposableSubscription** を **Add** して登録する<br>もしくは **IDisposableSubscription** に対して **.AddTo(_disposables)** のように記述して登録する
 3. **OnDestroy()** や **IDisposable.Dispose()** において **Dispose()** する
-   
+<a id="installation"></a>
 ## 導入
 
 ### Package Managerを使う場合
@@ -102,6 +126,7 @@
 ### スクリプトを直接入れる場合
 1. RuntimeフォルダをそのままUnityプロジェクトでお使いのスクリプトフォルダに入れてください
 
+<a id="overview"></a>
 ## 概要
 **UniRxの(R)3歩前に使うライブラリ**をテーマに、**eventとUniRx/R3の中間、橋渡し**といった位置付けで、教育/学習目的として制作しています。  
 
@@ -111,6 +136,7 @@
 といった方のためのライブラリです。   
 
 ---
+<a id="how-its-made"></a>
 #### 思想
 C#のeventは「**購読したら購読解除**」がワンセットになっていますが、例えばこのように
 ```csharp
@@ -164,6 +190,7 @@ private void DoSomething(int value) { }
 「強そうだから」「LLMがそう言っていたから」使うのではなく、まずはeventから始めて、上述の痛みを感じたところでXqLuaを使って、最終的にUniRxを使い始めてほしいと思います。
 
 ---
+<a id="projects"></a>
 #### プロジェクト対象
 **個人開発**や**学生開発**、**ハッカソン**など**小規模開発**には十分に耐えられると思います。      
 しかし、それ以上は保証できませんので、**UniRx/R3を勉強して導入**することをおすすめします。    
@@ -179,7 +206,7 @@ private void DoSomething(int value) { }
 | 非同期系 | 一部のみ      | 豊富で便利       |
 | スレッド間処理 | **非対応** | 対応 |
 
-
+<a id="basics"></a>
 ## 基本機能
 ### Publisher
 C#の**event**に相当するクラスです。     
@@ -288,6 +315,7 @@ _reactiveProperty.Subscribe(value => Debug.Log(value)).AddTo(_disposables);
 
 なお、実装は**非同期に対応していません**ので注意してください。
 
+<a id="miscs"></a>
 ## その他
 以下の方法で、起きやすいエラーを日本語で表示するデバッグモードを設定できます。
 1. Edit -> Project Settings を開く
@@ -299,6 +327,7 @@ _reactiveProperty.Subscribe(value => Debug.Log(value)).AddTo(_disposables);
 - Disposeが必要な購読などが行われたときに記録を行い、Dispose漏れがあれば警告
 を実装しています。
 
+<a id="faq"></a>
 ## FAQ
 Q. eventとの違いは?     
 
@@ -322,6 +351,7 @@ A.
    
 という偶然です。
 
+<a id="lisense"></a>
 ## ライセンス
 公開するので一応MITライセンスをつけています。   
 なお、学生さんの場合は使ったことを教えていただけると私がすごく喜びます。
