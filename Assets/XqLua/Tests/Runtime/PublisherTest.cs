@@ -25,6 +25,22 @@ namespace XqLua.Test {
         }
 
         /// <summary>
+        /// Disposeは正しく動作するか？
+        /// </summary>
+        [Test]
+        public void EventShouldDisposeCorrectly() {
+            Publisher<int> actionEvent = new Publisher<int>();
+            int receiver = -1;
+            IDisposableSubscription subscription = actionEvent.Subscribe(value => receiver = value);
+            actionEvent.Invoke(1);
+            Assert.AreEqual(receiver, 1);
+            subscription.Dispose();
+
+            actionEvent.Invoke(2);
+            Assert.AreEqual(receiver, 1); // Dispose後は削除により更新されない
+        }
+
+        /// <summary>
         /// 空のPublisherを発火させようとしても例外が発生しないか？
         /// </summary>
         [Test]
@@ -45,6 +61,23 @@ namespace XqLua.Test {
 
             Assert.AreEqual(receiver, -1);
             Assert.DoesNotThrow(() => actionEvent.Invoke(Empty.Default));
+        }
+
+        /// <summary>
+        /// Publisherが2つのパラメータを持つイベントを正しく発火できるか？
+        /// </summary>
+        [Test]
+        public void PublisherWithTwoParametersShouldWork() {
+            Publisher<int, string> actionEvent = new Publisher<int, string>();
+            int receiver1 = -1;
+            string receiver2 = null;
+            actionEvent.Subscribe((value1, value2) => {
+                receiver1 = value1;
+                receiver2 = value2;
+            }).AddTo(_disposables);
+            actionEvent.Invoke(42, "Hello");
+            Assert.AreEqual(receiver1, 42);
+            Assert.AreEqual(receiver2, "Hello");
         }
 
         //NOTE: 追加テスト thx to Claude
