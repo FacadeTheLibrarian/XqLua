@@ -6,6 +6,10 @@ using XqLua.Debugger;
 #endif
 
 namespace XqLua {
+    /// <summary>
+    /// C#のeventを抽象化したクラス
+    /// </summary>
+    /// <typeparam name="T">イベントの値の型</typeparam>
     public class Publisher<T> : IPublisher<T>, IDisposable {
 
         internal event Action<T> OnEventInvoked = delegate { };
