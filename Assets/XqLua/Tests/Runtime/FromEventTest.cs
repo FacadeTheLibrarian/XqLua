@@ -8,6 +8,8 @@ namespace XqLua.Test {
         private event Action<int> _testEvent = delegate { };
         private event Action _testVoidEvent = delegate { };
 
+        private event Action<int, string> _testEvent2 = delegate { };
+
         private Disposables _disposables = default;
 
         [SetUp]
@@ -75,6 +77,37 @@ namespace XqLua.Test {
 
             _testEvent.Invoke(100);
             Assert.AreEqual(10, test);
+        }
+
+        /// <summary>
+        /// FromEventで2つのパラメータを持つC# eventをラップして購読解除後に再度購読できるか?
+        /// </summary>
+        [Test]
+        public void FromEventWithTwoParametersShouldWork() {
+            int test = 0;
+            string testString = "";
+
+            IPublisher<int, string> publisher = Publisher<int, string>.FromEvent(
+                handler => { _testEvent2 += handler; UnityEngine.Debug.Log("購読"); },
+                handler => { _testEvent2 -= handler; UnityEngine.Debug.Log("購読解除"); }
+            );
+
+            IDisposableSubscription disposable1 = publisher.Subscribe((value1, value2) => {
+                test = value1;
+                testString = value2;
+            });
+            LogAssert.Expect(UnityEngine.LogType.Log, "購読");
+
+            _testEvent2.Invoke(10, "test");
+            Assert.AreEqual(10, test);
+            Assert.AreEqual("test", testString);
+
+            disposable1.Dispose();
+            LogAssert.Expect(UnityEngine.LogType.Log, "購読解除");
+
+            _testEvent2.Invoke(100, "testAfterDispose");
+            Assert.AreEqual(10, test);
+            Assert.AreEqual("test", testString);
         }
 
         // NOTE: 追加テスト thx to Claude
