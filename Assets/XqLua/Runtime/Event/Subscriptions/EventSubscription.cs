@@ -70,4 +70,41 @@ namespace XqLua {
 #endif
         }
     }
+
+    /// <summary>
+    /// Publisherではなく、イベントの購読を抽象化したクラス
+    /// 第二引数に対応
+    /// </summary>
+    /// <typeparam name="T">イベントの第一引数の型</typeparam>
+    /// <typeparam name="U">イベントの第二引数の型</typeparam>
+    public sealed class EventSubscription<T, U> : IDisposableSubscription {
+        private Action<T, U> _subscriber = default;
+        private Action<Action<T, U>> _unsubscribe = default;
+
+        public EventSubscription(Action<T, U> subscriber, Action<Action<T, U>> subscribe, Action<Action<T, U>> unsubscribe) {
+            _subscriber = subscriber;
+            _unsubscribe = unsubscribe;
+            subscribe(OnEventInvoked);
+#if XQLUA_DEBUG
+            string caller = new StackFrame(2, false).GetMethod().DeclaringType.FullName;
+            if (caller.Contains("Extension")) {
+                caller = new StackFrame(3, false).GetMethod().DeclaringType.FullName;
+            }
+            DisposableDebugger.Instance.AddDebug(this, "Subscription", caller);
+#endif
+        }
+
+        private void OnEventInvoked(T first, U second) {
+            _subscriber(first, second);
+        }
+
+        public void Dispose() {
+            _unsubscribe(OnEventInvoked);
+            _subscriber = null;
+#if XQLUA_DEBUG
+            DisposableDebugger.Instance.DisposeDebug(this);
+#endif
+        }
+    }
+
 }
