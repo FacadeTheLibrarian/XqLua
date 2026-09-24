@@ -36,10 +36,10 @@ namespace XqLua.Sample.GameSample {
             if (_isFiring || _isReloading) {
                 return;
             }
-            if (!_spotter.TrySpot(out Target target)) {
+            if (!_magazine.TryConsumeAmmo()) {
                 return;
             }
-            if (!_magazine.TryConsumeAmmo()) {
+            if (!_spotter.TrySpot(out Target target)) {
                 return;
             }
             _isFiring = true;
