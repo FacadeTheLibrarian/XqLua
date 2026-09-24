@@ -9,6 +9,9 @@ namespace XqLua.Sample.BadSample {
         [SerializeField] private ParticleSystem _cannonBallTrail = default;
         [SerializeField] private ParticleSystem _muzzleFlash = default;
 
+        [SerializeField] private AudioSource[] _audioSources = default;
+        [SerializeField] private AudioClip _shotSound = default;
+
         [SerializeField] private UIManager _uiManager = default;
 
         [SerializeField] private int _ammo = 10;
@@ -19,6 +22,7 @@ namespace XqLua.Sample.BadSample {
         private int _currentAmmo = default;
         private bool _isFiring = false;
         private bool _isReloading = false;
+        private int _audioSourceIndex = 0;
 
         public void Start() {
             _currentAmmo = _ammo;
@@ -56,6 +60,8 @@ namespace XqLua.Sample.BadSample {
             Vector3 difference = target.transform.position - _cannonBall.transform.position;
             float elapsedTime = 0.0f;
             _cannonBallTrail.Play();
+            _audioSources[_audioSourceIndex].PlayOneShot(_shotSound);
+            _audioSourceIndex = (_audioSourceIndex + 1) % _audioSources.Length;
             while (elapsedTime < _secondToTarget) {
                 float unscaledDeltaTime = Time.unscaledDeltaTime;
                 elapsedTime += unscaledDeltaTime;

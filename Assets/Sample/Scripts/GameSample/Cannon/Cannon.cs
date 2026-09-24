@@ -5,11 +5,16 @@ using XqLua.Extension;
 
 namespace XqLua.Sample.GameSample {
     public class Cannon : MonoBehaviour, IDisposable {
+
+        public IPublisher<Empty> OnFire => _onFire;
+
         [SerializeField] private CannonBall _cannonBall = default;
         [SerializeField] private Muzzle _muzzle = default;
 
         [SerializeField] private float _secondToTarget = 1.0f;
         [SerializeField] private float _reloadInterval = 0.125f;
+
+        private Publisher<Empty> _onFire = default;
 
         private Magazine _magazine = default;
         private Spotter _spotter = default;
@@ -21,6 +26,9 @@ namespace XqLua.Sample.GameSample {
 
         public Cannon Initialize(Magazine magazine, Spotter spotter) {
             _disposables = new Disposables();
+
+            _onFire = new Publisher<Empty>().AddTo(_disposables);
+
             _cannonBall = _cannonBall.Initialize().AddTo(_disposables);
             _muzzle = _muzzle.Initialize().AddTo(_disposables);
             _magazine = magazine;
@@ -49,6 +57,7 @@ namespace XqLua.Sample.GameSample {
             StartCoroutine(coroutineSource);
         }
         private IEnumerator FireCore(Target target, float secondToTarget) {
+            _onFire.Invoke(Empty.Default);
             _muzzle.Fire();
             yield return _cannonBall.Fire(_muzzle.transform, target, secondToTarget);
             _isFiring = false;
