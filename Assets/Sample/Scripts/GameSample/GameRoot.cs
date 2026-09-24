@@ -10,6 +10,9 @@ namespace XqLua.Sample.GameSample {
 
         [SerializeField] private TargetManager _targetManager = default;
 
+        [SerializeField] private AudioAlbum _audioAlbum = default;
+        [SerializeField] private AudioSourceService _audioSourceService = default;
+
         [SerializeField] private CannonPresenter _cannonPresenter = default;
         [SerializeField] private MagazinePresenter _magazinePresenter = default;
 
@@ -30,6 +33,10 @@ namespace XqLua.Sample.GameSample {
             _magazinePresenter = _magazinePresenter.Initialize(_magazine).AddTo(_disposables);
 
             _enemyHpPresenter = _enemyHpPresenter.Initialize().AddTo(_disposables);
+
+            _audioSourceService = _audioSourceService.Initialize().AddTo(_disposables);
+
+            AudioController audioController = new AudioController(_cannon, _audioSourceService, _audioAlbum).AddTo(_disposables);
         }
 
         public void OnDestroy() {
