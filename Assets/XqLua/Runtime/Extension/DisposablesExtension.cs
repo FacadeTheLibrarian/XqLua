@@ -2,6 +2,8 @@
 
 #if XQLUA_DEBUG
 using System.Diagnostics;
+using XqLua.Unity.Hooks;
+using UnityEngine;
 #endif
 
 namespace XqLua.Extension {
