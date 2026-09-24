@@ -160,7 +160,10 @@ eventは基本的に
 ```csharp
 public event Action OnEvent = delegate { }
 ```
-という風に記述しますが、Visual StudioのIntelliSenseにおいて「**n件の参照**」といった形で**誰から参照されているのかを見ることができません**。
+という風に記述しますが、Visual StudioのIntelliSenseにおいて「**n件の参照**」といった形で**誰から参照されているのかを見ることができません**。　　
+
+※ Visual Studio 2026 のアップデートで参照が見えるようになりました！
+このライブラリの存在意義が危うくなりましたが、eventの購読と購読解除が面倒という点は変わりません。
 
 そこで、
 ```csharp
@@ -359,5 +362,18 @@ A.
 
 <a id="updates"></a>
 ## 更新
-### 9/11
-Action<T, U> のeventに対してもFromEventを書けるようになりました。ただし、operatorが未実装で、使うことができません。必要になったら実装します。
+### 2026/9/11
+Action<T, U> のeventに対してもFromEventを書けるようになりました。ただし、operatorが未実装で使うことができません。必要になったら実装します。
+### 2026/9/24
+IDisposableをGameObjectに対して紐づけできるようになりました。
+```
+    private Publisher<int> _publisher = default;
+    private GameObject _gameObject = default;
+
+    public void Start() {
+        _publisher = new Publisher<int>().AddTo(_gameObject);
+        _publisher.Subscribe(value => { Debug.Log(value); }).AddTo(_gameObject);
+    }
+```
+としたとき、_gameObjectがDestoryされOnDestoryが呼ばれたとき、_publisherと、それに対する購読のDisposeが呼ばれます。
+内部実装はAddToGameObjectにMonoBehaviourを追加し、OnDestroyでDisposablesをDisposeする、という方式です。
