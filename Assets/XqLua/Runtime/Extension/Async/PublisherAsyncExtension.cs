@@ -65,7 +65,7 @@ namespace XqLua.Async {
         /// 最初の値は無視され、次に値が更新したときにAwaitが完了する
         /// </summary>
         /// <typeparam name="T">ReactivePropertyの型</typeparam>
-        /// <param name="publisher">購読するReactiveProperty</param>
+        /// <param name="reactiveProperty">購読するReactiveProperty</param>
         /// <param name="token">キャンセルトークン</param>
         /// <returns>非同期で待機可能なAwaitableオブジェクト</returns>
         public static async Awaitable<T> AwaitableSubscribe<T>(this IReactiveProperty<T> publisher, CancellationToken token) {
