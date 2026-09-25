@@ -79,6 +79,26 @@ namespace XqLua.Test {
             Assert.AreEqual(200.5f, receiver.value2);
         }
 
+        /// <summary>
+        /// BlankMessageは正しくMessageTrayからメッセージを取得できるか？
+        /// </summary>
+        [Test]
+        public void TakeBlankMessageFromTray() {
+            using MessageTray<BlankMessage> tray = new MessageTray<BlankMessage>();
+
+            // メッセージはまだトレイに入っていないので、TryGetMessageはfalseを返すはず
+            Assert.IsFalse(tray.TryReadMessage(out BlankMessage _));
+
+            tray.PutMessage(BlankMessage.Default);
+
+            if (tray.TryReadMessage(out BlankMessage receivedMessage)) {
+                Assert.AreEqual(BlankMessage.Default, receivedMessage);
+            }
+            else {
+                Assert.Fail("Failed to get message from tray");
+            }
+        }
+
         [TearDown]
         public void TearDown() {
 
