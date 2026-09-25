@@ -363,17 +363,46 @@ A.
 <a id="updates"></a>
 ## 更新
 ### 2026/9/11
-Action<T, U> のeventに対してもFromEventを書けるようになりました。ただし、operatorが未実装で使うことができません。必要になったら実装します。
+Action<T, U> のeventに対してもFromEventを書けるようになりました。　　
+```
+public event Action<int, float> TwoParametersEvent = delegate { };
+
+public void Start() {
+    Publisher<int, float>.FromEvent(
+        handler => TwoParametersEvent += handler,
+        handler => TwoParametersEvent -= handler
+    );
+}
+```
+ただし、operatorが未実装で使うことができません。必要になったら実装します。
 ### 2026/9/24
 IDisposableをGameObjectに対して紐づけできるようになりました。
 ```
-    private Publisher<int> _publisher = default;
-    private GameObject _gameObject = default;
+private Publisher<int> _publisher = default;
+private GameObject _gameObject = default;
 
-    public void Start() {
-        _publisher = new Publisher<int>().AddTo(_gameObject);
-        _publisher.Subscribe(value => { Debug.Log(value); }).AddTo(_gameObject);
-    }
+public void Start() {
+    _publisher = new Publisher<int>().AddTo(_gameObject);
+    _publisher.Subscribe(value => { Debug.Log(value); }).AddTo(_gameObject);
+}
 ```
 としたとき、_gameObjectがDestoryされOnDestoryが呼ばれたとき、_publisherと、それに対する購読のDisposeが呼ばれます。
 内部実装はAddToGameObjectにMonoBehaviourを追加し、OnDestroyでDisposablesをDisposeする、という方式です。
+### 2026/9/25
+2026/9/11の更新で行った複数の引数への対応をAction<T, U, V>とAction<T, U, V, W>まで対応させました。　　
+```
+public event Action<int, float, bool> ThreeParametersEvent = delegate { };
+public event Action<int, float, bool, string> FourParametersEvent = delegate { };
+
+public void Start() {
+    Publisher<int, float, bool>.FromEvent(
+        handler => ThreeParametersEvent += handler,
+        handler => ThreeParametersEvent -= handler
+    );
+    Publisher<int, float, bool, string>.FromEvent(
+        handler => FourParametersEvent += handler,
+        handler => FourParametersEvent -= handler
+    );
+}
+```
+また、operatorには対応していません。
