@@ -469,3 +469,49 @@ public void Start() {
     _source = new CancellationTokenSource();
     Awaitable<int> awaitabe = _reactiveProperty.AwaitableSubscription(_source.Token);
 }
+```
+
+### MessageTrayを追加しました
+イベントを購読しても、タイミングによっては発火後に購読してしまい値を取り逃してしまう場合があります。  
+そこで発火時に値を保持して購読前に確認できる機能を持ったクラスを追加しました。
+
+```
+public class Message {
+    ...
+}
+
+private MessageTray<Message> _tray = default;
+
+public void Start(){
+    _tray = new MessageTray<Message>();
+
+    Message message = new Message();
+
+    _tray.PutMessage(message);
+
+    if(_tray.TryReadMessage(out Message messageOnTray)) {
+        ...
+    }
+}
+```
+
+また、MessageTrayはIMessageTrayとして公開でき、AwaitableSubscribeにも対応しています。
+
+```
+public class Message {
+    ...
+}
+
+public IMessageTray<Message> Tray => _tray;
+private MessageTray<Message> _tray = default;
+
+private CancellationTokenSource _source = default;
+
+public void Start(){
+    _source = new CancellationToken();
+    Awaitable<Message> awaitable = Tray.AwaitableSubscribe(_source.Token);
+}
+```
+
+読んだメッセージは消されず、次にPutMessageでメッセージが更新されるまで残ります。  
+また、PublisherのEmpty相当として**BlankMessageのインスタンス**を用意しています。BlankMessage.Defaultで呼び出せます。
