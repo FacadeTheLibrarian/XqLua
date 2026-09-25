@@ -107,4 +107,78 @@ namespace XqLua {
         }
     }
 
+    /// <summary>
+    /// Publisherではなく、イベントの購読を抽象化したクラス
+    /// 第二引数に対応
+    /// </summary>
+    /// <typeparam name="T">イベントの第一引数の型</typeparam>
+    /// <typeparam name="U">イベントの第二引数の型</typeparam>
+    /// <typeparam name="V">イベントの第三引数の型</typeparam>
+    public sealed class EventSubscription<T, U, V> : IDisposableSubscription {
+        private Action<T, U, V> _subscriber = default;
+        private Action<Action<T, U, V>> _unsubscribe = default;
+
+        public EventSubscription(Action<T, U, V> subscriber, Action<Action<T, U, V>> subscribe, Action<Action<T, U, V>> unsubscribe) {
+            _subscriber = subscriber;
+            _unsubscribe = unsubscribe;
+            subscribe(OnEventInvoked);
+#if XQLUA_DEBUG
+            string caller = new StackFrame(2, false).GetMethod().DeclaringType.FullName;
+            if (caller.Contains("Extension")) {
+                caller = new StackFrame(3, false).GetMethod().DeclaringType.FullName;
+            }
+            DisposableDebugger.Instance.AddDebug(this, "Subscription", caller);
+#endif
+        }
+
+        private void OnEventInvoked(T first, U second, V third) {
+            _subscriber(first, second, third);
+        }
+
+        public void Dispose() {
+            _unsubscribe(OnEventInvoked);
+            _subscriber = null;
+#if XQLUA_DEBUG
+            DisposableDebugger.Instance.DisposeDebug(this);
+#endif
+        }
+    }
+
+    /// <summary>
+    /// Publisherではなく、イベントの購読を抽象化したクラス
+    /// 第二引数に対応
+    /// </summary>
+    /// <typeparam name="T">イベントの第一引数の型</typeparam>
+    /// <typeparam name="U">イベントの第二引数の型</typeparam>
+    /// <typeparam name="V">イベントの第三引数の型</typeparam>
+    /// <typeparam name="W">イベントの第四引数の型</typeparam>
+    public sealed class EventSubscription<T, U, V, W> : IDisposableSubscription {
+        private Action<T, U, V, W> _subscriber = default;
+        private Action<Action<T, U, V, W>> _unsubscribe = default;
+
+        public EventSubscription(Action<T, U, V, W> subscriber, Action<Action<T, U, V, W>> subscribe, Action<Action<T, U, V, W>> unsubscribe) {
+            _subscriber = subscriber;
+            _unsubscribe = unsubscribe;
+            subscribe(OnEventInvoked);
+#if XQLUA_DEBUG
+            string caller = new StackFrame(2, false).GetMethod().DeclaringType.FullName;
+            if (caller.Contains("Extension")) {
+                caller = new StackFrame(3, false).GetMethod().DeclaringType.FullName;
+            }
+            DisposableDebugger.Instance.AddDebug(this, "Subscription", caller);
+#endif
+        }
+
+        private void OnEventInvoked(T first, U second, V third, W fourth) {
+            _subscriber(first, second, third, fourth);
+        }
+
+        public void Dispose() {
+            _unsubscribe(OnEventInvoked);
+            _subscriber = null;
+#if XQLUA_DEBUG
+            DisposableDebugger.Instance.DisposeDebug(this);
+#endif
+        }
+    }
 }

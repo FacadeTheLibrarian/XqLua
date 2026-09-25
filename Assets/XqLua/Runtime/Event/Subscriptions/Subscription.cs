@@ -120,4 +120,83 @@ namespace XqLua {
 #endif
         }
     }
+
+    /// <summary>
+    /// 購読を抽象化したクラス
+    /// </summary>
+    /// <typeparam name="T">購読するPublisherの第一引数の型</typeparam>
+    /// <typeparam name="U">購読するPublisherの第二引数の型</typeparam>
+    /// <typeparam name="V">購読するPublisherの第三引数の型</typeparam>
+    internal sealed class Subscription<T, U, V> : IDisposableSubscription {
+        private Action<T, U, V> _subscriber = default;
+        private Action _unsubscription = default;
+
+        public Subscription(Action<T, U, V> subscriber) {
+            _subscriber = subscriber;
+#if XQLUA_DEBUG
+            string caller = new StackFrame(2, false).GetMethod().DeclaringType.FullName;
+            if (caller.Contains("Extension")) {
+                caller = new StackFrame(3, false).GetMethod().DeclaringType.FullName;
+            }
+            DisposableDebugger.Instance.AddDebug(this, "Subscription", caller);
+#endif
+        }
+
+        public void SetUnsubscription(Action unsubscription) {
+            _unsubscription = unsubscription;
+        }
+
+        public void OnEventInvoked(T firstValue, U secondParameter, V thirdParameter) {
+            _subscriber(firstValue, secondParameter, thirdParameter);
+        }
+
+        public void Dispose() {
+            _unsubscription();
+            _subscriber = null;
+
+#if XQLUA_DEBUG
+            DisposableDebugger.Instance.DisposeDebug(this);
+#endif
+        }
+    }
+
+    /// <summary>
+    /// 購読を抽象化したクラス
+    /// </summary>
+    /// <typeparam name="T">購読するPublisherの第一引数の型</typeparam>
+    /// <typeparam name="U">購読するPublisherの第二引数の型</typeparam>
+    /// <typeparam name="V">購読するPublisherの第三引数の型</typeparam>
+    /// <typeparam name="W">購読するPublisherの第四引数の型</typeparam>
+    internal sealed class Subscription<T, U, V, W> : IDisposableSubscription {
+        private Action<T, U, V, W> _subscriber = default;
+        private Action _unsubscription = default;
+
+        public Subscription(Action<T, U, V, W> subscriber) {
+            _subscriber = subscriber;
+#if XQLUA_DEBUG
+            string caller = new StackFrame(2, false).GetMethod().DeclaringType.FullName;
+            if (caller.Contains("Extension")) {
+                caller = new StackFrame(3, false).GetMethod().DeclaringType.FullName;
+            }
+            DisposableDebugger.Instance.AddDebug(this, "Subscription", caller);
+#endif
+        }
+
+        public void SetUnsubscription(Action unsubscription) {
+            _unsubscription = unsubscription;
+        }
+
+        public void OnEventInvoked(T firstValue, U secondParameter, V thirdParameter, W fourthParameter) {
+            _subscriber(firstValue, secondParameter, thirdParameter, fourthParameter);
+        }
+
+        public void Dispose() {
+            _unsubscription();
+            _subscriber = null;
+
+#if XQLUA_DEBUG
+            DisposableDebugger.Instance.DisposeDebug(this);
+#endif
+        }
+    }
 }

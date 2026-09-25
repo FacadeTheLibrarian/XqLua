@@ -230,8 +230,48 @@ Void は UniRx の **Unit** に当たります。
 実際にUniRxにおいて初学者のうちは**SubjectやSubscribeのDisposeを忘れがち**なので、XqLuaでもそれに準拠して「**PublisherをnewしたらDisposeする**」「**SubscribeしたらDisposeする**」のサイクルで実装しています。
 
 #### AwaitableSubscription
-IPublisher\<T>を**AwaitableSubscription\<T>()** で購読することで、**発火を1回だけ待つことのできるAwaitable\<T>を生成**することができます。
-この購読は自動で解除されるので、Disposeする必要はありません。
+IPublisher\<T>を**AwaitableSubscribe\<T>** で購読することで、**発火を1回だけ待つことのできるAwaitable\<T>を生成**することができます。  
+使用するときは**必ずCancellationTokenを引数に与えて購読してください**。キャンセルができなくなってしまいます。
+```
+public class PublisherClass : MonoBehaviour {
+    public Publisher<int> Publisher => _publisher;
+    private Publisher<int> _publisher = default;
+
+    ...
+}
+
+public class AwaitClass : MonoBehaviour {
+    [SerializeField] private PublisherClass _publisher = default;
+    private CancellationTokenSource _source = default;
+
+    public void Start() {
+        _source = new CancellationTokenSource();
+    }
+
+    public async Awaitable WaitForValue() {
+        Awaitable<int> awaitabe = _publisher.Publisher.AwaitableSubscription(_source.Token);
+        int value = 0;
+        try {
+            value = await awaitable;
+        }
+        catch (Exception exception) {
+            ...
+        }
+
+        ...
+    }
+}
+```
+PublisherClass.Publisherが発火すると、AwaitClass.WaitForValueの "await awaitable" が値を返します。この購読は自動で解除されるので、Disposeする必要はありません。
+
+また、IPublisherは第四引数まで対応しています。タプルで受け取ってください。
+```
+(int first, float second) value = await awaitable;
+```
+
+更新(2026/9/25):  
+AwaitableSubscriptionを**AwaitableSubscribe**に名称変更しました。
+AwaitableSubscriptionはObsoleteでマークしてあります。使用している場合は変更してください。
 
 ---
 
@@ -363,17 +403,58 @@ A.
 <a id="updates"></a>
 ## 更新
 ### 2026/9/11
-Action<T, U> のeventに対してもFromEventを書けるようになりました。ただし、operatorが未実装で使うことができません。必要になったら実装します。
+Action<T, U> のeventに対してもFromEventを書けるようになりました。　　
+```
+public event Action<int, float> TwoParametersEvent = delegate { };
+
+public void Start() {
+    Publisher<int, float>.FromEvent(
+        handler => TwoParametersEvent += handler,
+        handler => TwoParametersEvent -= handler
+    );
+}
+```
+ただし、operatorが未実装で使うことができません。必要になったら実装します。
 ### 2026/9/24
 IDisposableをGameObjectに対して紐づけできるようになりました。
 ```
-    private Publisher<int> _publisher = default;
-    private GameObject _gameObject = default;
+private Publisher<int> _publisher = default;
+private GameObject _gameObject = default;
 
-    public void Start() {
-        _publisher = new Publisher<int>().AddTo(_gameObject);
-        _publisher.Subscribe(value => { Debug.Log(value); }).AddTo(_gameObject);
-    }
+public void Start() {
+    _publisher = new Publisher<int>().AddTo(_gameObject);
+    _publisher.Subscribe(value => { Debug.Log(value); }).AddTo(_gameObject);
+}
 ```
 としたとき、_gameObjectがDestoryされOnDestoryが呼ばれたとき、_publisherと、それに対する購読のDisposeが呼ばれます。
 内部実装はAddToGameObjectにMonoBehaviourを追加し、OnDestroyでDisposablesをDisposeする、という方式です。
+### 2026/9/25
+2026/9/11の更新で行った複数の引数への対応をAction<T, U, V>とAction<T, U, V, W>まで対応させました。　　
+```
+public event Action<int, float, bool> ThreeParametersEvent = delegate { };
+public event Action<int, float, bool, string> FourParametersEvent = delegate { };
+
+public void Start() {
+    Publisher<int, float, bool>.FromEvent(
+        handler => ThreeParametersEvent += handler,
+        handler => ThreeParametersEvent -= handler
+    );
+    Publisher<int, float, bool, string>.FromEvent(
+        handler => FourParametersEvent += handler,
+        handler => FourParametersEvent -= handler
+    );
+}
+```
+また、operatorには対応していません。
+
+この複数の引数に対応する機能を、AwaitableSubscribeにも適用しました。
+```
+private Publisher<int, float> _twoParametersPublisher = default;
+private CancellationTokenSource _source = default;
+
+public void Start() {
+    _twoParametersPublisher = new Publisher<int, float>();
+    _source = new CancellationTokenSource();
+    Awaitable<(int, float)> awaitabe = _twoParametersPublisher.AwaitableSubscription(_source.Token);
+}
+```
