@@ -266,7 +266,7 @@ PublisherClass.Publisherが発火すると、AwaitClass.WaitForValueの "await a
 
 また、IPublisherは第四引数まで対応しています。タプルで受け取ってください。
 ```
-    (int first, float second) value = await awaitable;
+(int first, float second) value = await awaitable;
 ```
 
 更新(2026/9/25):  
