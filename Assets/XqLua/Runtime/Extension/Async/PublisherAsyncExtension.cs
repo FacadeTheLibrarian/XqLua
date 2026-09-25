@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading;
 using UnityEngine;
+using XqLua.Message;
 
 namespace XqLua.Async {
 
@@ -75,6 +76,40 @@ namespace XqLua.Async {
             Action<T> subscriber = value => completionSource.TrySetResult(value);
 
             IDisposableSubscription subscription = reactiveProperty.Skip(1).Subscribe(subscriber);
+            T result = default;
+            try {
+                result = await completionSource.Awaitable;
+            }
+            catch {
+                throw;
+            }
+            finally {
+                subscription.Dispose();
+                sourceRegistration.Dispose();
+            }
+            return result;
+        }
+
+        /// <summary>
+        /// MessageTrayを購読し、値を取得するまで非同期で待機するための拡張メソッド
+        /// 1回だけAwaitすることができる
+        /// もしもうすでにMessageTrayに値が入っている場合は、即座にその値を返す
+        /// また、メッセージは消費せず、MessageTrayに残る
+        /// </summary>
+        /// <typeparam name="T">MessageTrayの型</typeparam>
+        /// <param name="tray">購読するMessageTray</param>
+        /// <param name="token">キャンセルトークン</param>
+        /// <returns>非同期で待機可能なAwaitableオブジェクト</returns>
+        public static async Awaitable<T> AwaitableSubscribe<T>(this IMessageTray<T> tray, CancellationToken token) where T : class {
+            if(tray.TryReadMessage(out T message)) {
+                return message;
+            }
+
+            AwaitableCompletionSource<T> completionSource = new AwaitableCompletionSource<T>();
+            CancellationTokenRegistration sourceRegistration = token.Register(() => completionSource.TrySetCanceled());
+
+            Action<T> subscriber = value => completionSource.TrySetResult(value);
+            IDisposableSubscription subscription = tray.OnMessageArrived.Subscribe(subscriber);
             T result = default;
             try {
                 result = await completionSource.Awaitable;
