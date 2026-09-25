@@ -230,8 +230,48 @@ Void は UniRx の **Unit** に当たります。
 実際にUniRxにおいて初学者のうちは**SubjectやSubscribeのDisposeを忘れがち**なので、XqLuaでもそれに準拠して「**PublisherをnewしたらDisposeする**」「**SubscribeしたらDisposeする**」のサイクルで実装しています。
 
 #### AwaitableSubscription
-IPublisher\<T>を**AwaitableSubscription\<T>()** で購読することで、**発火を1回だけ待つことのできるAwaitable\<T>を生成**することができます。
-この購読は自動で解除されるので、Disposeする必要はありません。
+IPublisher\<T>を**AwaitableSubscribe\<T>** で購読することで、**発火を1回だけ待つことのできるAwaitable\<T>を生成**することができます。  
+使用するときは**必ずCancellationTokenを引数に与えて購読してください**。キャンセルができなくなってしまいます。
+```
+public class PublisherClass : MonoBehaviour {
+    public Publisher<int> Publisher => _publisher;
+    private Publisher<int> _publisher = default;
+
+    ...
+}
+
+public class AwaitClass : MonoBehaviour {
+    [SerializeField] private PublisherClass _publisher = default;
+    private CancellationTokenSource _source = default;
+
+    public void Start() {
+        _source = new CancellationTokenSource();
+    }
+
+    public async Awaitable WaitForValue() {
+        Awaitable<int> awaitabe = _publisher.Publisher.AwaitableSubscription(_source.Token);
+        int value = 0;
+        try {
+            value = await awaitable;
+        }
+        catch (Exception exception) {
+            ...
+        }
+
+        ...
+    }
+}
+```
+PublisherClass.Publisherが発火すると、AwaitClass.WaitForValueの "await awaitable" が値を返します。この購読は自動で解除されるので、Disposeする必要はありません。
+
+また、IPublisherは第四引数まで対応しています。タプルで受け取ってください。
+```
+    (int first, float second) value = await awaitable;
+```
+
+更新(2026/9/25):  
+AwaitableSubscriptionを**AwaitableSubscribe**に名称変更しました。
+AwaitableSubscriptionはObsoleteでマークしてあります。使用している場合は変更してください。
 
 ---
 
@@ -406,3 +446,15 @@ public void Start() {
 }
 ```
 また、operatorには対応していません。
+
+この複数の引数に対応する機能を、AwaitableSubscribeにも適用しました。
+```
+private Publisher<int, float> _twoParametersPublisher = default;
+private CancellationTokenSource _source = default;
+
+public void Start() {
+    _twoParametersPublisher = new Publisher<int, float>();
+    _source = new CancellationTokenSource();
+    Awaitable<(int, float)> awaitabe = _twoParametersPublisher.AwaitableSubscription(_source.Token);
+}
+```
