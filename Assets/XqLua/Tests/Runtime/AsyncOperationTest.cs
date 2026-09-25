@@ -17,7 +17,7 @@ namespace XqLua.Test {
         }
 
         /// <summary>
-        /// AwaitableSubscriptionが正しく値を受け取れるか？
+        /// AwaitableSubscribeが正しく値を受け取れるか？
         /// </summary>
         [Test]
         public async Task AwaitableSubscriptionCanAwaitAndSetValue() {
@@ -26,13 +26,13 @@ namespace XqLua.Test {
 
             _ = AutoInvocation(testPublisher, 100, 50, source.Token);
 
-            int receiver = await testPublisher.AwaitableSubscription(source.Token);
+            int receiver = await testPublisher.AwaitableSubscribe(source.Token);
 
             Assert.AreEqual(100, receiver);
         }
 
         /// <summary>
-        /// AwaitableSubscriptionがキャンセルできるか？
+        /// AwaitableSubscribeがキャンセルできるか？
         /// </summary>
         /// <returns></returns>
         [Test]
@@ -40,7 +40,7 @@ namespace XqLua.Test {
             using CancellationTokenSource source = new CancellationTokenSource();
             Publisher<int> testPublisher = new Publisher<int>().AddTo(_disposables);
 
-            Awaitable<int> awaitable = testPublisher.AwaitableSubscription(source.Token);
+            Awaitable<int> awaitable = testPublisher.AwaitableSubscribe(source.Token);
             source.Cancel();
 
             bool wasCancelled = false;
@@ -55,7 +55,58 @@ namespace XqLua.Test {
         }
 
         /// <summary>
-        /// テスト用のクラス
+        /// 第2引数に対応したAwaitableSubscribeが正しく値を受け取れるか？
+        /// </summary>
+        [Test]
+        public async Task AwaitableSubscriptionCanAwaitAndSetTwoValues() {
+            using CancellationTokenSource source = new CancellationTokenSource();
+            Publisher<int, string> testPublisher = new Publisher<int, string>().AddTo(_disposables);
+
+            _ = AutoInvocation(testPublisher, 100, "hello", 50, source.Token);
+
+            (int, string) receiver = await testPublisher.AwaitableSubscribe(source.Token);
+
+            Assert.AreEqual(100, receiver.Item1);
+            Assert.AreEqual("hello", receiver.Item2);
+        }
+
+        /// <summary>
+        /// 第3引数に対応したAwaitableSubscribeが正しく値を受け取れるか？
+        /// </summary>
+        [Test]
+        public async Task AwaitableSubscriptionCanAwaitAndSetThreeValues() {
+            using CancellationTokenSource source = new CancellationTokenSource();
+            Publisher<int, string, float> testPublisher = new Publisher<int, string, float>().AddTo(_disposables);
+
+            _ = AutoInvocation(testPublisher, 100, "hello", 50.0f, 50, source.Token);
+
+            (int, string, float) receiver = await testPublisher.AwaitableSubscribe(source.Token);
+
+            Assert.AreEqual(100, receiver.Item1);
+            Assert.AreEqual("hello", receiver.Item2);
+            Assert.AreEqual(50.0f, receiver.Item3);
+        }
+
+        /// <summary>
+        /// 第4引数に対応したAwaitableSubscribeが正しく値を受け取れるか？
+        /// </summary>
+        [Test]
+        public async Task AwaitableSubscriptionCanAwaitAndSetFourValues() {
+            using CancellationTokenSource source = new CancellationTokenSource();
+            Publisher<int, string, float, bool> testPublisher = new Publisher<int, string, float, bool>().AddTo(_disposables);
+
+            _ = AutoInvocation(testPublisher, 100, "hello", 50.0f, true, 50, source.Token);
+
+            (int, string, float, bool) receiver = await testPublisher.AwaitableSubscribe(source.Token);
+
+            Assert.AreEqual(100, receiver.Item1);
+            Assert.AreEqual("hello", receiver.Item2);
+            Assert.AreEqual(50.0f, receiver.Item3);
+            Assert.AreEqual(true, receiver.Item4);
+        }
+
+        /// <summary>
+        /// テスト用の関数
         /// </summary>
         private async Task AutoInvocation(Publisher<int> test, int value, int millisecondsdelay, CancellationToken token) {
             try {
@@ -65,6 +116,45 @@ namespace XqLua.Test {
                 throw;
             }
             test.Invoke(value);
+        }
+
+        /// <summary>
+        /// テスト用の関数
+        /// </summary>
+        private async Task AutoInvocation(Publisher<int, string> test, int value1, string value2,int millisecondsdelay, CancellationToken token) {
+            try {
+                await Task.Delay(millisecondsdelay, token);
+            }
+            catch {
+                throw;
+            }
+            test.Invoke(value1, value2);
+        }
+
+        /// <summary>
+        /// テスト用の関数
+        /// </summary>
+        private async Task AutoInvocation(Publisher<int, string, float> test, int value1, string value2, float value3, int millisecondsdelay, CancellationToken token) {
+            try {
+                await Task.Delay(millisecondsdelay, token);
+            }
+            catch {
+                throw;
+            }
+            test.Invoke(value1, value2, value3);
+        }
+
+        /// <summary>
+        /// テスト用の関数
+        /// </summary>
+        private async Task AutoInvocation(Publisher<int, string, float, bool> test, int value1, string value2, float value3, bool value4, int millisecondsdelay, CancellationToken token) {
+            try {
+                await Task.Delay(millisecondsdelay, token);
+            }
+            catch {
+                throw;
+            }
+            test.Invoke(value1, value2, value3, value4);
         }
 
         [TearDown]

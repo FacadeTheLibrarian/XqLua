@@ -9,6 +9,28 @@ namespace XqLua.Async {
     /// </summary>
     public static class PublisherAsyncExtension {
         /// <summary>
+        /// AwaitableSubscriptionは非推奨になりました。まもなく削除されます。
+        /// 代わりにAwaitableSubscribeを使用してください。
+        /// </summary>
+        [Obsolete]
+        public static async Awaitable<T> AwaitableSubscription<T>(this IPublisher<T> publisher) {
+            AwaitableCompletionSource<T> completionSource = new AwaitableCompletionSource<T>();
+            Action<T> subscriber = value => completionSource.TrySetResult(value);
+            IDisposableSubscription subscription = publisher.Subscribe(subscriber);
+            T result = default;
+            try {
+                result = await completionSource.Awaitable;
+            }
+            catch {
+                throw;
+            }
+            finally {
+                subscription.Dispose();
+            }
+            return result;
+        }
+
+        /// <summary>
         /// Publisherの購読を非同期で待機するための拡張メソッド
         /// 1回だけAwaitすることができる
         /// </summary>
@@ -16,7 +38,7 @@ namespace XqLua.Async {
         /// <param name="publisher">購読するPublisher</param>
         /// <param name="token">キャンセルトークン</param>
         /// <returns>非同期で待機可能なAwaitableオブジェクト</returns>
-        public static async Awaitable<T> AwaitableSubscription<T>(this IPublisher<T> publisher, CancellationToken token) {
+        public static async Awaitable<T> AwaitableSubscribe<T>(this IPublisher<T> publisher, CancellationToken token) {
             AwaitableCompletionSource<T> completionSource = new AwaitableCompletionSource<T>();
             CancellationTokenRegistration sourceRegistration = token.Register(() => completionSource.TrySetCanceled());
 
@@ -24,6 +46,102 @@ namespace XqLua.Async {
 
             IDisposableSubscription subscription = publisher.Subscribe(subscriber);
             T result = default;
+            try {
+                result = await completionSource.Awaitable;
+            }
+            catch {
+                throw;
+            }
+            finally {
+                subscription.Dispose();
+                sourceRegistration.Dispose();
+            }
+            return result;
+        }
+
+        /// <summary>
+        /// Publisherの購読を非同期で待機するための拡張メソッド
+        /// 第二引数に対応
+        /// 1回だけAwaitすることができる
+        /// </summary>
+        /// <typeparam name="T">Publisherの第一引数型</typeparam>
+        /// <typeparam name="U">Publisherの第二引数型</typeparam>
+        /// <param name="publisher">購読するPublisher</param>
+        /// <param name="token">キャンセルトークン</param>
+        /// <returns>非同期で待機可能なAwaitableオブジェクト</returns>
+        public static async Awaitable<(T first, U second)> AwaitableSubscribe<T, U>(this IPublisher<T, U> publisher, CancellationToken token) {
+            AwaitableCompletionSource<(T, U)> completionSource = new AwaitableCompletionSource<(T, U)>();
+            CancellationTokenRegistration sourceRegistration = token.Register(() => completionSource.TrySetCanceled());
+
+            Action<T, U> subscriber = (value1, value2) => completionSource.TrySetResult((value1, value2));
+
+            IDisposableSubscription subscription = publisher.Subscribe(subscriber);
+            (T, U) result = default;
+            try {
+                result = await completionSource.Awaitable;
+            }
+            catch {
+                throw;
+            }
+            finally {
+                subscription.Dispose();
+                sourceRegistration.Dispose();
+            }
+            return result;
+        }
+
+        /// <summary>
+        /// Publisherの購読を非同期で待機するための拡張メソッド
+        /// 第三引数に対応
+        /// 1回だけAwaitすることができる
+        /// </summary>
+        /// <typeparam name="T">Publisherの第一引数型</typeparam>
+        /// <typeparam name="U">Publisherの第二引数型</typeparam>
+        /// <typeparam name="V">Publisherの第三引数型</typeparam>
+        /// <param name="publisher">購読するPublisher</param>
+        /// <param name="token">キャンセルトークン</param>
+        /// <returns>非同期で待機可能なAwaitableオブジェクト</returns>
+        public static async Awaitable<(T first, U second, V third)> AwaitableSubscribe<T, U, V>(this IPublisher<T, U, V> publisher, CancellationToken token) {
+            AwaitableCompletionSource<(T, U, V)> completionSource = new AwaitableCompletionSource<(T, U, V)>();
+            CancellationTokenRegistration sourceRegistration = token.Register(() => completionSource.TrySetCanceled());
+
+            Action<T, U, V> subscriber = (value1, value2, value3) => completionSource.TrySetResult((value1, value2, value3));
+
+            IDisposableSubscription subscription = publisher.Subscribe(subscriber);
+            (T, U, V) result = default;
+            try {
+                result = await completionSource.Awaitable;
+            }
+            catch {
+                throw;
+            }
+            finally {
+                subscription.Dispose();
+                sourceRegistration.Dispose();
+            }
+            return result;
+        }
+
+        /// <summary>
+        /// Publisherの購読を非同期で待機するための拡張メソッド
+        /// 第三引数に対応
+        /// 1回だけAwaitすることができる
+        /// </summary>
+        /// <typeparam name="T">Publisherの第一引数型</typeparam>
+        /// <typeparam name="U">Publisherの第二引数型</typeparam>
+        /// <typeparam name="V">Publisherの第三引数型</typeparam>
+        /// <typeparam name="W">Publisherの第四引数型</typeparam>
+        /// <param name="publisher">購読するPublisher</param>
+        /// <param name="token">キャンセルトークン</param>
+        /// <returns>非同期で待機可能なAwaitableオブジェクト</returns>
+        public static async Awaitable<(T first, U second, V third, W fourth)> AwaitableSubscribe<T, U, V, W>(this IPublisher<T, U, V, W> publisher, CancellationToken token) {
+            AwaitableCompletionSource<(T, U, V, W)> completionSource = new AwaitableCompletionSource<(T, U, V, W)>();
+            CancellationTokenRegistration sourceRegistration = token.Register(() => completionSource.TrySetCanceled());
+
+            Action<T, U, V, W> subscriber = (value1, value2, value3, value4) => completionSource.TrySetResult((value1, value2, value3, value4));
+
+            IDisposableSubscription subscription = publisher.Subscribe(subscriber);
+            (T, U, V, W) result = default;
             try {
                 result = await completionSource.Awaitable;
             }
