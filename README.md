@@ -403,7 +403,7 @@ A.
 <a id="updates"></a>
 ## 更新
 ### 2026/9/11
-Action<T, U> のeventに対してもFromEventを書けるようになりました。　　
+#### Action<T, U> のeventに対してもFromEventを書けるようになりました。　　
 ```
 public event Action<int, float> TwoParametersEvent = delegate { };
 
@@ -416,7 +416,7 @@ public void Start() {
 ```
 ただし、operatorが未実装で使うことができません。必要になったら実装します。
 ### 2026/9/24
-IDisposableをGameObjectに対して紐づけできるようになりました。
+#### IDisposableをGameObjectに対して紐づけできるようになりました。
 ```
 private Publisher<int> _publisher = default;
 private GameObject _gameObject = default;
@@ -429,7 +429,7 @@ public void Start() {
 としたとき、_gameObjectがDestoryされOnDestoryが呼ばれたとき、_publisherと、それに対する購読のDisposeが呼ばれます。
 内部実装はAddToGameObjectにMonoBehaviourを追加し、OnDestroyでDisposablesをDisposeする、という方式です。
 ### 2026/9/25
-2026/9/11の更新で行った複数の引数への対応をAction<T, U, V>とAction<T, U, V, W>まで対応させました。　　
+#### 2026/9/11の更新で行った複数の引数への対応をAction<T, U, V>とAction<T, U, V, W>まで対応させました。　　
 ```
 public event Action<int, float, bool> ThreeParametersEvent = delegate { };
 public event Action<int, float, bool, string> FourParametersEvent = delegate { };
@@ -447,7 +447,7 @@ public void Start() {
 ```
 また、operatorには対応していません。
 
-この複数の引数に対応する機能を、AwaitableSubscribeにも適用しました。
+#### この複数の引数に対応する機能を、AwaitableSubscribeにも適用しました。
 ```
 private Publisher<int, float> _twoParametersPublisher = default;
 private CancellationTokenSource _source = default;
@@ -458,3 +458,14 @@ public void Start() {
     Awaitable<(int, float)> awaitabe = _twoParametersPublisher.AwaitableSubscription(_source.Token);
 }
 ```
+
+#### AwaitableSubscribeをReactivePropertyに対しても使えるようになりました。
+```
+private ReactiveProperty<int> _reactiveProperty = default;
+private CancellationTokenSource _source = default;
+
+public void Start() {
+    _reactiveProperty = new ReactiveProperty<int>();
+    _source = new CancellationTokenSource();
+    Awaitable<int> awaitabe = _reactiveProperty.AwaitableSubscription(_source.Token);
+}

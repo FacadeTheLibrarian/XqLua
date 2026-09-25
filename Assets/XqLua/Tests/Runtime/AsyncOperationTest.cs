@@ -55,6 +55,44 @@ namespace XqLua.Test {
         }
 
         /// <summary>
+        /// ReactivePropertyに対するAwaitableSubscribeが正しく値を受け取れるか？
+        /// </summary>
+        [Test]
+        public async Task AwaitableSubscriptionToReactivePropertyCanAwaitAndSetValue() {
+            using CancellationTokenSource source = new CancellationTokenSource();
+            ReactiveProperty<int> testRP = new ReactiveProperty<int>(100).AddTo(_disposables);
+
+            _ = AutoInvocation(testRP, 200, 100, source.Token);
+
+            int receiver = await testRP.AwaitableSubscribe(source.Token);
+
+            Assert.AreEqual(200, receiver);
+        }
+
+        /// <summary>
+        /// AwaitableSubscribeがキャンセルできるか？
+        /// </summary>
+        /// <returns></returns>
+        [Test]
+        public async Task AwaitableSubscriptionToReactivePropertyCanCancel() {
+            using CancellationTokenSource source = new CancellationTokenSource();
+            ReactiveProperty<int> testRP = new ReactiveProperty<int>(100).AddTo(_disposables);
+
+            Awaitable<int> awaitable = testRP.AwaitableSubscribe(source.Token);
+            source.Cancel();
+
+            bool wasCancelled = false;
+            try {
+                await awaitable;
+            }
+            catch (OperationCanceledException) {
+                wasCancelled = true;
+            }
+
+            Assert.IsTrue(wasCancelled);
+        }
+
+        /// <summary>
         /// 第2引数に対応したAwaitableSubscribeが正しく値を受け取れるか？
         /// </summary>
         [Test]
@@ -116,6 +154,19 @@ namespace XqLua.Test {
                 throw;
             }
             test.Invoke(value);
+        }
+
+        /// <summary>
+        /// テスト用の関数
+        /// </summary>
+        private async Task AutoInvocation(ReactiveProperty<int> test, int value, int millisecondsdelay, CancellationToken token) {
+            try {
+                await Task.Delay(millisecondsdelay, token);
+            }
+            catch {
+                throw;
+            }
+            test.Value = value;
         }
 
         /// <summary>
