@@ -62,6 +62,7 @@ namespace XqLua.Async {
         /// <summary>
         /// ReactivePropertyの購読を非同期で待機するための拡張メソッド
         /// 1回だけAwaitすることができる
+        /// 最初の値は無視され、次に値が更新したときにAwaitが完了する
         /// </summary>
         /// <typeparam name="T">ReactivePropertyの型</typeparam>
         /// <param name="publisher">購読するReactiveProperty</param>
