@@ -68,13 +68,13 @@ namespace XqLua.Async {
         /// <param name="reactiveProperty">購読するReactiveProperty</param>
         /// <param name="token">キャンセルトークン</param>
         /// <returns>非同期で待機可能なAwaitableオブジェクト</returns>
-        public static async Awaitable<T> AwaitableSubscribe<T>(this IReactiveProperty<T> publisher, CancellationToken token) {
+        public static async Awaitable<T> AwaitableSubscribe<T>(this IReactiveProperty<T> reactiveProperty, CancellationToken token) {
             AwaitableCompletionSource<T> completionSource = new AwaitableCompletionSource<T>();
             CancellationTokenRegistration sourceRegistration = token.Register(() => completionSource.TrySetCanceled());
 
             Action<T> subscriber = value => completionSource.TrySetResult(value);
 
-            IDisposableSubscription subscription = publisher.Skip(1).Subscribe(subscriber);
+            IDisposableSubscription subscription = reactiveProperty.Skip(1).Subscribe(subscriber);
             T result = default;
             try {
                 result = await completionSource.Awaitable;
