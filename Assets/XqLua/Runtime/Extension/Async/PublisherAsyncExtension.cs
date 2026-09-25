@@ -60,6 +60,36 @@ namespace XqLua.Async {
         }
 
         /// <summary>
+        /// ReactivePropertyの購読を非同期で待機するための拡張メソッド
+        /// 1回だけAwaitすることができる
+        /// 最初の値は無視され、次に値が更新したときにAwaitが完了する
+        /// </summary>
+        /// <typeparam name="T">ReactivePropertyの型</typeparam>
+        /// <param name="publisher">購読するReactiveProperty</param>
+        /// <param name="token">キャンセルトークン</param>
+        /// <returns>非同期で待機可能なAwaitableオブジェクト</returns>
+        public static async Awaitable<T> AwaitableSubscribe<T>(this IReactiveProperty<T> publisher, CancellationToken token) {
+            AwaitableCompletionSource<T> completionSource = new AwaitableCompletionSource<T>();
+            CancellationTokenRegistration sourceRegistration = token.Register(() => completionSource.TrySetCanceled());
+
+            Action<T> subscriber = value => completionSource.TrySetResult(value);
+
+            IDisposableSubscription subscription = publisher.Skip(1).Subscribe(subscriber);
+            T result = default;
+            try {
+                result = await completionSource.Awaitable;
+            }
+            catch {
+                throw;
+            }
+            finally {
+                subscription.Dispose();
+                sourceRegistration.Dispose();
+            }
+            return result;
+        }
+
+        /// <summary>
         /// Publisherの購読を非同期で待機するための拡張メソッド
         /// 第二引数に対応
         /// 1回だけAwaitすることができる
