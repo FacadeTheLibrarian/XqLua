@@ -1,5 +1,7 @@
 ﻿using System;
+#if XQLUA_DEBUG
 using System.Diagnostics;
+#endif
 
 namespace XqLua {
 
