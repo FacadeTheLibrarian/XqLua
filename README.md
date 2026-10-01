@@ -515,3 +515,21 @@ public void Start(){
 
 読んだメッセージは消されず、次にPutMessageでメッセージが更新されるまで残ります。  
 また、PublisherのEmpty相当として**BlankMessageのインスタンス**を用意しています。BlankMessage.Defaultで呼び出せます。
+
+### 2026/10/1
+#### MonoBehaviourを継承したスクリプトもAddToできるようになりました
+2026/9/24更新を拡張してMonoBehaviourを継承したスクリプトを直接AddToできるように機能を追加しました。
+```
+private Publisher<int> _publisher = default;
+private TestMonoBehaviour _monoBehaviour = default;
+
+public void Start() {
+    _publisher = new Publisher<int>().AddTo(_gameObject);
+    _publisher.Subscribe(value => { Debug.Log(value); }).AddTo(_monoBehaviour);
+}
+
+public class TestMonoBehaviour : MonoBehaviour {
+    ...
+}
+```
+内部構造はそれほど変わらず、ユーザ側でgameObjectを渡すかライブラリ側でgameObjectを取るかくらいの違いです。
