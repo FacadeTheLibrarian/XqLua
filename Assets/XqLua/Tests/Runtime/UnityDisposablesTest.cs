@@ -33,6 +33,23 @@ namespace XqLua.Test {
         }
 
         [UnityTest]
+        public IEnumerator AddToMonoBehaviourShouldBeDisposedOnDestory() {
+            TestMonoBehaviour monoBehaviour = new GameObject().AddComponent<TestMonoBehaviour>();
+
+            yield return null;
+
+            TestDisposable disposable = new TestDisposable().AddTo(monoBehaviour);
+
+            yield return null;
+
+            GameObject.Destroy(monoBehaviour.gameObject);
+
+            yield return null;
+
+            Assert.IsTrue(disposable.IsDisposed);
+        }
+
+        [UnityTest]
         public IEnumerator AddToGameObjectMultipleShouldBeDisposedOnDestory() {
             GameObject gameObject = new GameObject();
 
@@ -86,6 +103,14 @@ namespace XqLua.Test {
         }
 
         private class TestDisposable : IDisposable {
+            public bool IsDisposed { get; private set; } = false;
+            public void Dispose() {
+                IsDisposed = true;
+            }
+        }
+
+        private class TestMonoBehaviour : MonoBehaviour, IDisposable {
+
             public bool IsDisposed { get; private set; } = false;
             public void Dispose() {
                 IsDisposed = true;
