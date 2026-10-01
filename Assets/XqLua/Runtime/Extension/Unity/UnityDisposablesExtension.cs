@@ -28,5 +28,26 @@ namespace XqLua.Unity.Extension {
             trigger.Add(disposable);
             return disposable;
         }
+
+        /// <summary>
+        /// IDisposableをGameObjectに紐づけする拡張メソッド
+        /// </summary>
+        /// <param name="disposable">追加するIDisposable</param>
+        /// <param name="monoBehaviour">追加先のMonoBehaviourを継承したスクリプト</param>
+        /// <exception cref="ArgumentNullException">デバッグが有効な場合、追加先のGameObjectがnullのときにスローされます</exception>
+        public static T AddTo<T, U>(this T disposable, U monoBehaviour) where T : IDisposable where U : MonoBehaviour {
+#if XQLUA_DEBUG
+            if (!monoBehaviour) {
+                string caller = new StackFrame(1, false).GetMethod().DeclaringType.FullName;
+                throw new ArgumentNullException($"{caller}でOnClickPublisherを呼ぼうとしたとき、GameObjectがnullでした\nSerializeFieldなどのアサインを忘れていませんか？");
+            }
+#endif
+            OnDestroyHook trigger = default;
+            if (!monoBehaviour.TryGetComponent(out trigger)) {
+                trigger = monoBehaviour.gameObject.AddComponent<OnDestroyHook>().Initialize();
+            }
+            trigger.Add(disposable);
+            return disposable;
+        }
     }
 }
