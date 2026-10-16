@@ -1,4 +1,6 @@
 ﻿using System;
+using XqLua.Unity;
+using UnityEngine.Events;
 
 #if XQLUA_DEBUG
 using System.Diagnostics;
@@ -95,6 +97,10 @@ namespace XqLua {
         public static IPublisher<T> FromEvent(Action<Action<T>> subscribe, Action<Action<T>> unsubscribe) {
             return new EventPublisher<T>(subscribe, unsubscribe);
         }
+
+        public static IPublisher<T> FromUnityEvent(Action<UnityAction<T>> subscribe, Action<UnityAction<T>> unsubscribe) {
+            return new UnityEventPublisher<T>(subscribe, unsubscribe);
+        }
     }
 
     /// <summary>
@@ -178,6 +184,16 @@ namespace XqLua {
         public static IPublisher<T, U> FromEvent(Action<Action<T, U>> subscribe, Action<Action<T, U>> unsubscribe) {
             return new EventPublisher<T, U>(subscribe, unsubscribe);
         }
+
+        /// <summary>
+        /// Publisherを引数を二つ取るイベントから作成する
+        /// </summary>
+        /// <param name="subscribe">イベントの購読を開始するためのデリゲート</param>
+        /// <param name="unsubscribe">イベントの購読を解除するためのデリゲート</param>
+        /// <returns>作成されたPublisher</returns>
+        public static IPublisher<T, U> FromUnityEvent(Action<UnityAction<T, U>> subscribe, Action<UnityAction<T, U>> unsubscribe) {
+            return new UnityEventPublisher<T, U>(subscribe, unsubscribe);
+        }
     }
 
     /// <summary>
@@ -255,7 +271,7 @@ namespace XqLua {
         }
 
         /// <summary>
-        /// Publisherを引数を二つ取るイベントから作成する
+        /// Publisherを引数を三つ取るイベントから作成する
         /// </summary>
         /// <param name="subscribe">イベントの購読を開始するためのデリゲート</param>
         /// <param name="unsubscribe">イベントの購読を解除するためのデリゲート</param>
@@ -263,10 +279,20 @@ namespace XqLua {
         public static IPublisher<T, U, V> FromEvent(Action<Action<T, U, V>> subscribe, Action<Action<T, U, V>> unsubscribe) {
             return new EventPublisher<T, U, V>(subscribe, unsubscribe);
         }
+
+        /// <summary>
+        /// Publisherを引数を三つ取るイベントから作成する
+        /// </summary>
+        /// <param name="subscribe">イベントの購読を開始するためのデリゲート</param>
+        /// <param name="unsubscribe">イベントの購読を解除するためのデリゲート</param>
+        /// <returns>作成されたPublisher</returns>
+        public static IPublisher<T, U, V> FromUnityEvent(Action<UnityAction<T, U, V>> subscribe, Action<UnityAction<T, U, V>> unsubscribe) {
+            return new UnityEventPublisher<T, U, V>(subscribe, unsubscribe);
+        }
     }
 
     /// <summary>
-    /// Publisherを第三引数まで対応させたクラス
+    /// Publisherを第四引数まで対応させたクラス
     /// </summary>
     /// <typeparam name="T">イベントの第一引数の型</typeparam>
     /// <typeparam name="U">イベントの第二引数の型</typeparam>
@@ -342,13 +368,23 @@ namespace XqLua {
         }
 
         /// <summary>
-        /// Publisherを引数を二つ取るイベントから作成する
+        /// Publisherを引数を四つ取るイベントから作成する
         /// </summary>
         /// <param name="subscribe">イベントの購読を開始するためのデリゲート</param>
         /// <param name="unsubscribe">イベントの購読を解除するためのデリゲート</param>
         /// <returns>作成されたPublisher</returns>
         public static IPublisher<T, U, V, W> FromEvent(Action<Action<T, U, V, W>> subscribe, Action<Action<T, U, V, W>> unsubscribe) {
             return new EventPublisher<T, U, V, W>(subscribe, unsubscribe);
+        }
+
+        /// <summary>
+        /// Publisherを引数を四つ取るイベントから作成する
+        /// </summary>
+        /// <param name="subscribe">イベントの購読を開始するためのデリゲート</param>
+        /// <param name="unsubscribe">イベントの購読を解除するためのデリゲート</param>
+        /// <returns>作成されたPublisher</returns>
+        public static IPublisher<T, U, V, W> FromUnityEvent(Action<UnityAction<T, U, V, W>> subscribe, Action<UnityAction<T, U, V, W>> unsubscribe) {
+            return new UnityEventPublisher<T, U, V, W>(subscribe, unsubscribe);
         }
     }
 }
