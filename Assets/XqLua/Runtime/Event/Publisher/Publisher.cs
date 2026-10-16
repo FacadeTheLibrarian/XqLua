@@ -271,7 +271,7 @@ namespace XqLua {
         }
 
         /// <summary>
-        /// Publisherを引数を二つ取るイベントから作成する
+        /// Publisherを引数を三つ取るイベントから作成する
         /// </summary>
         /// <param name="subscribe">イベントの購読を開始するためのデリゲート</param>
         /// <param name="unsubscribe">イベントの購読を解除するためのデリゲート</param>
@@ -292,7 +292,7 @@ namespace XqLua {
     }
 
     /// <summary>
-    /// Publisherを第三引数まで対応させたクラス
+    /// Publisherを第四引数まで対応させたクラス
     /// </summary>
     /// <typeparam name="T">イベントの第一引数の型</typeparam>
     /// <typeparam name="U">イベントの第二引数の型</typeparam>
@@ -368,7 +368,7 @@ namespace XqLua {
         }
 
         /// <summary>
-        /// Publisherを引数を二つ取るイベントから作成する
+        /// Publisherを引数を四つ取るイベントから作成する
         /// </summary>
         /// <param name="subscribe">イベントの購読を開始するためのデリゲート</param>
         /// <param name="unsubscribe">イベントの購読を解除するためのデリゲート</param>
