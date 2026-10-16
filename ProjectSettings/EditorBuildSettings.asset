@@ -14,5 +14,8 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Sample/Scenes/BehaviourSample.unity
     guid: 2efdc0338e4a6b14ebcb34e085a4c06b
+  - enabled: 1
+    path: Assets/XqLua/Tests/TestScene/TestScene.unity
+    guid: 2d9985a9d1eb1224d9ba6d6eec373f51
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
