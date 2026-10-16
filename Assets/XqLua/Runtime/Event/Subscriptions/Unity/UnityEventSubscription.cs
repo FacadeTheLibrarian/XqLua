@@ -1,0 +1,185 @@
+﻿using System;
+using UnityEngine.Events;
+
+#if XQLUA_DEBUG
+using System.Diagnostics;
+using XqLua.Debugger;
+#endif
+
+namespace XqLua {
+    /// <summary>
+    /// Publisherではなく、イベントの購読を抽象化したクラス
+    /// </summary>
+    /// <typeparam name="T">イベントの型</typeparam>
+    public sealed class UnityEventSubscription<T> : IDisposableSubscription {
+        private Action<T> _subscriber = default;
+        private Action<UnityAction<T>> _unsubscribe = default;
+
+        public UnityEventSubscription(Action<T> subscriber, Action<UnityAction<T>> subscribe, Action<UnityAction<T>> unsubscribe) {
+            _subscriber = subscriber;
+            _unsubscribe = unsubscribe;
+            subscribe(OnEventInvoked);
+#if XQLUA_DEBUG
+            string caller = new StackFrame(2, false).GetMethod().DeclaringType.FullName;
+            if (caller.Contains("Extension")) {
+                caller = new StackFrame(3, false).GetMethod().DeclaringType.FullName;
+            }
+            DisposableDebugger.Instance.AddDebug(this, "Subscription", caller);
+#endif
+        }
+
+        private void OnEventInvoked(T value) {
+            _subscriber(value);
+        }
+
+        public void Dispose() {
+            _unsubscribe(OnEventInvoked);
+            _subscriber = null;
+#if XQLUA_DEBUG
+            DisposableDebugger.Instance.DisposeDebug(this);
+#endif
+        }
+    }
+
+    /// <summary>
+    /// Publisherではなく、イベントの購読を抽象化したクラス
+    /// Empty、もしくは引数なしのイベント専用
+    /// </summary>
+    public sealed class UnityEventSubscription : IDisposableSubscription {
+        private Action<Empty> _subscriber = default;
+        private Action<Action> _unsubscribe = default;
+
+        public UnityEventSubscription(Action<Empty> subscriber, Action<Action> subscribe, Action<Action> unsubscribe) {
+            _subscriber = subscriber;
+            _unsubscribe = unsubscribe;
+            subscribe(OnEventInvoked);
+#if XQLUA_DEBUG
+            string caller = new StackFrame(1, false).GetMethod().DeclaringType.FullName;
+            DisposableDebugger.Instance.AddDebug(this, nameof(UnityEventSubscription), caller);
+#endif
+        }
+
+        private void OnEventInvoked() {
+            _subscriber(Empty.Default);
+        }
+
+        public void Dispose() {
+            _unsubscribe(OnEventInvoked);
+            _subscriber = null;
+#if XQLUA_DEBUG
+            DisposableDebugger.Instance.DisposeDebug(this);
+#endif
+        }
+    }
+
+    /// <summary>
+    /// Publisherではなく、イベントの購読を抽象化したクラス
+    /// 第二引数に対応
+    /// </summary>
+    /// <typeparam name="T">イベントの第一引数の型</typeparam>
+    /// <typeparam name="U">イベントの第二引数の型</typeparam>
+    public sealed class UnityEventSubscription<T, U> : IDisposableSubscription {
+        private Action<T, U> _subscriber = default;
+        private Action<UnityAction<T, U>> _unsubscribe = default;
+
+        public UnityEventSubscription(Action<T, U> subscriber, Action<UnityAction<T, U>> subscribe, Action<UnityAction<T, U>> unsubscribe) {
+            _subscriber = subscriber;
+            _unsubscribe = unsubscribe;
+            subscribe(OnEventInvoked);
+#if XQLUA_DEBUG
+            string caller = new StackFrame(2, false).GetMethod().DeclaringType.FullName;
+            if (caller.Contains("Extension")) {
+                caller = new StackFrame(3, false).GetMethod().DeclaringType.FullName;
+            }
+            DisposableDebugger.Instance.AddDebug(this, "Subscription", caller);
+#endif
+        }
+
+        private void OnEventInvoked(T first, U second) {
+            _subscriber(first, second);
+        }
+
+        public void Dispose() {
+            _unsubscribe(OnEventInvoked);
+            _subscriber = null;
+#if XQLUA_DEBUG
+            DisposableDebugger.Instance.DisposeDebug(this);
+#endif
+        }
+    }
+
+    /// <summary>
+    /// Publisherではなく、イベントの購読を抽象化したクラス
+    /// 第二引数に対応
+    /// </summary>
+    /// <typeparam name="T">イベントの第一引数の型</typeparam>
+    /// <typeparam name="U">イベントの第二引数の型</typeparam>
+    /// <typeparam name="V">イベントの第三引数の型</typeparam>
+    public sealed class UnityEventSubscription<T, U, V> : IDisposableSubscription {
+        private Action<T, U, V> _subscriber = default;
+        private Action<UnityAction<T, U, V>> _unsubscribe = default;
+
+        public UnityEventSubscription(Action<T, U, V> subscriber, Action<UnityAction<T, U, V>> subscribe, Action<UnityAction<T, U, V>> unsubscribe) {
+            _subscriber = subscriber;
+            _unsubscribe = unsubscribe;
+            subscribe(OnEventInvoked);
+#if XQLUA_DEBUG
+            string caller = new StackFrame(2, false).GetMethod().DeclaringType.FullName;
+            if (caller.Contains("Extension")) {
+                caller = new StackFrame(3, false).GetMethod().DeclaringType.FullName;
+            }
+            DisposableDebugger.Instance.AddDebug(this, "Subscription", caller);
+#endif
+        }
+
+        private void OnEventInvoked(T first, U second, V third) {
+            _subscriber(first, second, third);
+        }
+
+        public void Dispose() {
+            _unsubscribe(OnEventInvoked);
+            _subscriber = null;
+#if XQLUA_DEBUG
+            DisposableDebugger.Instance.DisposeDebug(this);
+#endif
+        }
+    }
+
+    /// <summary>
+    /// Publisherではなく、イベントの購読を抽象化したクラス
+    /// 第二引数に対応
+    /// </summary>
+    /// <typeparam name="T">イベントの第一引数の型</typeparam>
+    /// <typeparam name="U">イベントの第二引数の型</typeparam>
+    /// <typeparam name="V">イベントの第三引数の型</typeparam>
+    /// <typeparam name="W">イベントの第四引数の型</typeparam>
+    public sealed class UnityEventSubscription<T, U, V, W> : IDisposableSubscription {
+        private Action<T, U, V, W> _subscriber = default;
+        private Action<UnityAction<T, U, V, W>> _unsubscribe = default;
+
+        public UnityEventSubscription(Action<T, U, V, W> subscriber, Action<UnityAction<T, U, V, W>> subscribe, Action<UnityAction<T, U, V, W>> unsubscribe) {
+            _subscriber = subscriber;
+            _unsubscribe = unsubscribe;
+            subscribe(OnEventInvoked);
+#if XQLUA_DEBUG
+            string caller = new StackFrame(2, false).GetMethod().DeclaringType.FullName;
+            if (caller.Contains("Extension")) {
+                caller = new StackFrame(3, false).GetMethod().DeclaringType.FullName;
+            }
+            DisposableDebugger.Instance.AddDebug(this, "Subscription", caller);
+#endif
+        }
+
+        private void OnEventInvoked(T first, U second, V third, W fourth) {
+            _subscriber(first, second, third, fourth);
+        }
+
+        public void Dispose() {
+            _unsubscribe(OnEventInvoked);
+            _subscriber = null;
+#if XQLUA_DEBUG
+            DisposableDebugger.Instance.DisposeDebug(this);
+#endif
+        }
+    }
+}
