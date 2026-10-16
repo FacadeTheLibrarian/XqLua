@@ -533,3 +533,15 @@ public class TestMonoBehaviour : MonoBehaviour {
 }
 ```
 内部構造はそれほど変わらず、ユーザ側でgameObjectを渡すかライブラリ側でgameObjectを取るかくらいの違いです。
+
+### 2026/10/16
+#### UnityEventに対してもFromUnityEventを使って購読できるようになりました
+```
+public void Start(){
+    Publisher<Scene, LoadSceneMode>.FromUnityEvent(
+        action => SceneManager.sceneLoaded += action,
+        action => SceneManager.sceneLoaded -= action
+    ).Subscribe((scene, mode) => {
+        UnityEngine.Debug.Log($"Scene loaded: {scene.name}, Mode: {mode}");
+    }).AddTo(this);
+```
