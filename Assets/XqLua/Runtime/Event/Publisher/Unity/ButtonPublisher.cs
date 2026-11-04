@@ -35,7 +35,7 @@ namespace XqLua.Unity {
             Action<UnityAction> subscription = (action) => _button.onClick.AddListener(action);
             Action<UnityAction> unsubscription = (action) => _button.onClick.RemoveListener(action);
 
-            return new ButtonSubscription(subscriber, subscription, unsubscription);
+            return new UnityEventSubscription(subscriber, subscription, unsubscription);
         }
     }
 
