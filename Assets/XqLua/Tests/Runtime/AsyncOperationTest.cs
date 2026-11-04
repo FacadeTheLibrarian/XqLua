@@ -3,6 +3,8 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.TestTools;
 using XqLua.Async;
 using XqLua.Extension;
 
@@ -27,6 +29,23 @@ namespace XqLua.Test {
             _ = AutoInvocation(testPublisher, 100, 50, source.Token);
 
             int receiver = await testPublisher.AwaitableSubscribe(source.Token);
+
+            Assert.AreEqual(100, receiver);
+        }
+
+        /// <summary>
+        /// すでに発火したAwaitableSubscribeを待つこと、値を受け取ることができるか？
+        /// </summary>
+        [Test]
+        public async Task CanReceiveResultAlreadyDone() {
+            using CancellationTokenSource source = new CancellationTokenSource();
+            Publisher<int> testPublisher = new Publisher<int>().AddTo(_disposables);
+
+            Awaitable<int> awaitable = testPublisher.AwaitableSubscribe(source.Token);
+
+            testPublisher.Invoke(100);
+
+            int receiver = await awaitable;
 
             Assert.AreEqual(100, receiver);
         }
