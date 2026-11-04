@@ -232,7 +232,7 @@ Void は UniRx の **Unit** に当たります。
 #### AwaitableSubscription
 IPublisher\<T>を**AwaitableSubscribe\<T>** で購読することで、**発火を1回だけ待つことのできるAwaitable\<T>を生成**することができます。  
 使用するときは**必ずCancellationTokenを引数に与えて購読してください**。キャンセルができなくなってしまいます。
-```
+```csharp
 public class PublisherClass : MonoBehaviour {
     public Publisher<int> Publisher => _publisher;
     private Publisher<int> _publisher = default;
@@ -404,7 +404,7 @@ A.
 ## 更新
 ### 2026/9/11
 #### Action<T, U> のeventに対してもFromEventを書けるようになりました。　　
-```
+```csharp
 public event Action<int, float> TwoParametersEvent = delegate { };
 
 public void Start() {
@@ -416,8 +416,8 @@ public void Start() {
 ```
 ただし、operatorが未実装で使うことができません。必要になったら実装します。
 ### 2026/9/24
-#### IDisposableをGameObjectに対して紐づけできるようになりました。
-```
+#### IDisposableをGameObjectに対して紐づけできるようになりました。  
+```csharp
 private Publisher<int> _publisher = default;
 private GameObject _gameObject = default;
 
@@ -430,7 +430,7 @@ public void Start() {
 内部実装はAddToGameObjectにMonoBehaviourを追加し、OnDestroyでDisposablesをDisposeする、という方式です。
 ### 2026/9/25
 #### 2026/9/11の更新で行った複数の引数への対応をAction<T, U, V>とAction<T, U, V, W>まで対応させました。　　
-```
+```csharp
 public event Action<int, float, bool> ThreeParametersEvent = delegate { };
 public event Action<int, float, bool, string> FourParametersEvent = delegate { };
 
@@ -448,7 +448,7 @@ public void Start() {
 また、operatorには対応していません。
 
 #### この複数の引数に対応する機能を、AwaitableSubscribeにも適用しました。
-```
+```csharp
 private Publisher<int, float> _twoParametersPublisher = default;
 private CancellationTokenSource _source = default;
 
@@ -460,7 +460,7 @@ public void Start() {
 ```
 
 #### AwaitableSubscribeをReactivePropertyに対しても使えるようになりました。
-```
+```csharp
 private ReactiveProperty<int> _reactiveProperty = default;
 private CancellationTokenSource _source = default;
 
@@ -475,7 +475,7 @@ public void Start() {
 イベントを購読しても、タイミングによっては発火後に購読してしまい値を取り逃してしまう場合があります。  
 そこで発火時に値を保持して購読前に確認できる機能を持ったクラスを追加しました。
 
-```
+```csharp
 public class Message {
     ...
 }
@@ -497,7 +497,7 @@ public void Start(){
 
 また、MessageTrayはIMessageTrayとして公開でき、AwaitableSubscribeにも対応しています。
 
-```
+```csharp
 public class Message {
     ...
 }
@@ -519,7 +519,7 @@ public void Start(){
 ### 2026/10/1
 #### MonoBehaviourを継承したスクリプトもAddToできるようになりました
 2026/9/24更新を拡張してMonoBehaviourを継承したスクリプトを直接AddToできるように機能を追加しました。
-```
+```csharp
 private Publisher<int> _publisher = default;
 private TestMonoBehaviour _monoBehaviour = default;
 
@@ -536,7 +536,7 @@ public class TestMonoBehaviour : MonoBehaviour {
 
 ### 2026/10/16
 #### UnityEventに対してもFromUnityEventを使って購読できるようになりました
-```
+```csharp
 public void Start(){
     Publisher<Scene, LoadSceneMode>.FromUnityEvent(
         action => SceneManager.sceneLoaded += action,
@@ -545,3 +545,8 @@ public void Start(){
         UnityEngine.Debug.Log($"Scene loaded: {scene.name}, Mode: {mode}");
     }).AddTo(this);
 ```
+
+
+
+
+
