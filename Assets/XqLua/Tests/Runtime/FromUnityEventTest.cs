@@ -1,8 +1,12 @@
 ﻿using NUnit.Framework;
 using System.Collections;
+using System.Threading;
+using System.Threading.Tasks;
+using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 using UnityEngine.TestTools;
+using XqLua.Async;
 using XqLua.Extension;
 
 namespace XqLua.Test {
@@ -74,6 +78,34 @@ namespace XqLua.Test {
 
             Assert.IsTrue(threeVariablesEventInvoked, "Three variables event was not invoked.");
             Assert.IsTrue(fourVariablesEventInvoked, "Four variables event was not invoked.");
+        }
+
+        [Test]
+        public async Task CanReceiveResultAlreadyDone() {
+            using CancellationTokenSource cts = new CancellationTokenSource();
+            Awaitable<(Scene, LoadSceneMode)> loadAwaitable =  Publisher<Scene, LoadSceneMode>.FromUnityEvent(
+                action => SceneManager.sceneLoaded += action,
+                action => SceneManager.sceneLoaded -= action
+            ).AwaitableSubscribe(cts.Token);
+
+            Awaitable<Scene> unloadAwaitable = Publisher<Scene>.FromUnityEvent(
+                action => SceneManager.sceneUnloaded += action,
+                action => SceneManager.sceneUnloaded -= action
+            ).AwaitableSubscribe(cts.Token);
+
+            await SceneManager.LoadSceneAsync("TestScene", LoadSceneMode.Additive);
+
+            (Scene, LoadSceneMode) result = await loadAwaitable;
+
+            Assert.IsTrue(result.Item1.IsValid(), "Scene loaded result is null.");
+            Assert.AreEqual(LoadSceneMode.Additive, result.Item2, "Scene loaded mode is incorrect.");
+
+            await SceneManager.UnloadSceneAsync("TestScene");
+
+            Scene unloadResult = await unloadAwaitable;
+
+            //NOTE: unloadしたときのイベント引数はnullになるので、このIsValidはfalseになるはず
+            Assert.IsFalse(unloadResult.IsValid(), "Scene unloaded result is null.");
         }
 
         [TearDown]
