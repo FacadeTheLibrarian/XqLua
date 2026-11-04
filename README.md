@@ -409,8 +409,8 @@ public event Action<int, float> TwoParametersEvent = delegate { };
 
 public void Start() {
     Publisher<int, float>.FromEvent(
-        handler => TwoParametersEvent += handler,
-        handler => TwoParametersEvent -= handler
+        handle => TwoParametersEvent += handle,
+        handle => TwoParametersEvent -= handle
     );
 }
 ```
@@ -436,12 +436,12 @@ public event Action<int, float, bool, string> FourParametersEvent = delegate { }
 
 public void Start() {
     Publisher<int, float, bool>.FromEvent(
-        handler => ThreeParametersEvent += handler,
-        handler => ThreeParametersEvent -= handler
+        handle => ThreeParametersEvent += handle,
+        handle => ThreeParametersEvent -= handle
     );
     Publisher<int, float, bool, string>.FromEvent(
-        handler => FourParametersEvent += handler,
-        handler => FourParametersEvent -= handler
+        handle => FourParametersEvent += handle,
+        handle => FourParametersEvent -= handle
     );
 }
 ```
