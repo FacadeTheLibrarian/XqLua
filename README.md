@@ -537,13 +537,14 @@ public class TestMonoBehaviour : MonoBehaviour {
 ### 2026/10/16
 #### UnityEventに対してもFromUnityEventを使って購読できるようになりました
 ```csharp
-public void Start(){
+public void Start() {
     Publisher<Scene, LoadSceneMode>.FromUnityEvent(
         action => SceneManager.sceneLoaded += action,
         action => SceneManager.sceneLoaded -= action
     ).Subscribe((scene, mode) => {
         UnityEngine.Debug.Log($"Scene loaded: {scene.name}, Mode: {mode}");
     }).AddTo(this);
+}
 ```
 
 
