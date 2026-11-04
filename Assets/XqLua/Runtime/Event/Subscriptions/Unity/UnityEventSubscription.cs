@@ -47,9 +47,9 @@ namespace XqLua {
     /// </summary>
     public sealed class UnityEventSubscription : IDisposableSubscription {
         private Action<Empty> _subscriber = default;
-        private Action<Action> _unsubscribe = default;
+        private Action<UnityAction> _unsubscribe = default;
 
-        public UnityEventSubscription(Action<Empty> subscriber, Action<Action> subscribe, Action<Action> unsubscribe) {
+        public UnityEventSubscription(Action<Empty> subscriber, Action<UnityAction> subscribe, Action<UnityAction> unsubscribe) {
             _subscriber = subscriber;
             _unsubscribe = unsubscribe;
             subscribe(OnEventInvoked);
