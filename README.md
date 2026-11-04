@@ -547,7 +547,12 @@ public void Start() {
 }
 ```
 
+### 2026/11/4
+#### Slider.OnValueChangedに対しても購読できるようになりました
+```csharp
+[SerializeField] private Slider _slider = default;
 
-
-
-
+public void Start() {
+    _slider.OnValueChangedAsPublisher(value => Debug.Log(value)).AddTo(this);
+}
+```
